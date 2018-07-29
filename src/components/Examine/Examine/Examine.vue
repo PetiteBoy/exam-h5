@@ -15,7 +15,7 @@
       <div :class="userAnswers === answer ? 'success' : 'danger'">您的答案：{{ userAnswers }} 正确答案：{{ answer }}</div>
       <div class="answerContent">{{ explains }}</div>
     </div>
-    <el-button :type="finish ? 'primary' : 'info'" @click="false ? nextQuestion() : record()">{{ total > questionNum ? '下一题' : '完成' }}</el-button>
+    <el-button :type="finish ? 'primary' : 'info'" @click="total > questionNum ? nextQuestion() : record()">{{ total > questionNum ? '下一题' : '完成' }}</el-button>
   </div>
 </template>
 
