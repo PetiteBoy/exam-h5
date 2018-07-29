@@ -1,19 +1,21 @@
 <template>
   <div class="container">
-    <video id="video" class="r"></video>
-    <div class="title">{{ mediaInfo.categoryName }}</div>
-    <div class="content">
-      <div>视频标题：{{ mediaInfo.name }}</div>
-      <div>视频描述：{{ mediaInfo.introduction }}</div>
-    </div>
-    <video id="videoInfo" @click="mediaTools('tools')" :src="mediaInfo.url" width="100%" height="640"></video>
-    <el-button class="l" type="primary" @click="mediaTools('tools')">{{ media ? '播放' : '暂停' }}</el-button>
-    <div class="videoDate l">{{ completeDuration }} / {{ duration }}</div>
-    <el-button class="r" type="success" @click="mediaTools('full')">全屏</el-button>
-    <div class="r ovh">
-      <div class="l">音量</div>
-      <div class="block r">
-        <el-slider v-model="mediaVolume" @change="mediaTools"></el-slider>
+    <div id="body">
+      <video id="video" class="r"></video>
+      <div class="title">{{ mediaInfo.categoryName }}</div>
+      <div class="content">
+        <div>视频标题：{{ mediaInfo.name }}</div>
+        <div>视频描述：{{ mediaInfo.introduction }}</div>
+      </div>
+      <video id="videoInfo" @click="mediaTools('tools')" :src="mediaInfo.url" width="100%" height="640"></video>
+      <el-button class="l" type="primary" @click="mediaTools('tools')">{{ media ? '播放' : '暂停' }}</el-button>
+      <div class="videoDate l">{{ completeDuration }} / {{ duration }}</div>
+      <el-button class="r" type="success" @click="mediaTools('full')">全屏</el-button>
+      <div class="r ovh">
+        <div class="l">音量</div>
+        <div class="block r">
+          <el-slider v-model="mediaVolume" @change="mediaTools"></el-slider>
+        </div>
       </div>
     </div>
   </div>
@@ -85,7 +87,7 @@ export default {
           })
         }
         if (data.status === '0x5002') {
-          this.$router.push('/')
+          this.$parent.logout()
         }
         this.mediaInfo = data.data
         this.currentTime = data.data.completedDuration || 0

@@ -1,50 +1,52 @@
 <template>
   <div class="container">
-    <div class="task">
-      <div class="taskHeader">
-        <div>
-          <div>学习要求</div>
-          <el-tooltip class="item" effect="dark" :content="tips" placement="right">
-            <el-button :type="buttonType ? 'primary' : 'info'"
-                       @click="navigation(buttonType ? 'examine' : 'forbid')">{{ buttonContent }}
-            </el-button>
-          </el-tooltip>
+    <Header class="head"></Header>
+    <div id="body">
+      <div class="task">
+        <div class="taskHeader">
+          <div>
+            <div>学习要求</div>
+            <el-tooltip class="item" effect="dark" :content="tips" placement="right">
+              <el-button :type="buttonType ? 'primary' : 'info'"
+                         @click="navigation(buttonType ? 'examine' : 'forbid')">{{ buttonContent }}
+              </el-button>
+            </el-tooltip>
+          </div>
+          <div>
+            <div>今日至少学习{{ learnDuration }}，目前已经学习{{ completeDuration }}</div>
+            <div>提示：请务必保证学习时长大于3小时，否则无法生成相应学习记录</div>
+          </div>
         </div>
-        <div>
-          <div>今日至少学习{{ learnDuration }}，目前已经学习{{ completeDuration }}</div>
-          <div>提示：请务必保证学习时长大于3小时，否则无法生成相应学习记录</div>
+        <div class="taskList">
+          <el-row :gutter="20" v-for="item in taskList" :key="item.categoryId">
+            <el-col :span="10">{{ item.categoryName }} <span :class="item.status === 1 ? 'success' : item.status === 0 ? 'danger' : 'info'">至少完整学习{{ item.learnNum }}个视频</span></el-col>
+            <el-col :span="3" :class="item.status === 1 ? 'success' : item.status === 0 ? 'danger' : 'info'">{{ item.status === 1 ? '已完成' : item.status === 0 ? '未完成' : '无要求' }}
+            </el-col>
+          </el-row>
         </div>
       </div>
-      <div class="taskList">
-        <el-row :gutter="20" v-for="item in taskList" :key="item.categoryId">
-          <el-col :span="10">{{ item.categoryName }} <span :class="item.status === 1 ? 'success' : item.status === 0 ? 'danger' : 'info'">至少完整学习{{ item.learnNum }}个视频</span></el-col>
-          <el-col :span="3" :class="item.status === 1 ? 'success' : item.status === 0 ? 'danger' : 'info'">{{ item.status === 1 ? '已完成' : item.status === 0 ? '未完成' : '无要求' }}
-          </el-col>
-        </el-row>
-      </div>
-    </div>
-    <div class="list">
-      <div v-for="item in list" :key="item.id">
-        <div class="listTitle">{{ item.name }}</div>
-        <el-row class="listContent" v-for="(videoItem, index) in item.videos" :key="videoItem.id" :gutter="20" v-if="index % 4 === 0">
-          <el-col :span="6" v-for="i in [0, 1, 2, 3]" :key="i" v-if="item.videos[i + index]">
-            <div class="listImg" @click="navigation(item.videos[i + index].id)" :style="item.videos[i + index].thumbUrl ? `background: url(${item.videos[i + index].thumbUrl}) center no-repeat; background-size: cover;` : ''">
-            </div>
-            <div class="listTips l ovh" style="background-color: rgba(0, 0, 0, .3)">
-              <div class="l">{{ item.videos[i + index].date }}</div>
-              <div class="r" :style="item.videos[i + index].isCompleted ? 'background-color: #67C23A;' : ''">{{ item.videos[i + index].isCompleted ? '已完成' : '未完成' }}</div>
-            </div>
-            <!--<div class="listTips r" >{{ item.videos[i + index].isCompleted ? '已完成' : '未完成' }}</div>-->
-            <el-row class="listTools" :gutter="10">
-              <el-col :span="24">
-                <div class="listInfo">
-                  <div class="name">{{ item.videos[i + index].name }}</div>
-                  <div class="introduction" :title="item.videos[i + index].introduction">{{ item.videos[i + index].introduction }}</div>
-                </div>
-              </el-col>
-            </el-row>
-          </el-col>
-        </el-row>
+      <div class="list">
+        <div v-for="item in list" :key="item.id">
+          <div class="listTitle">{{ item.name }}</div>
+          <el-row class="listContent" v-for="(videoItem, index) in item.videos" :key="videoItem.id" :gutter="20" v-if="index % 4 === 0">
+            <el-col :span="6" v-for="i in [0, 1, 2, 3]" :key="i" v-if="item.videos[i + index]">
+              <div class="listImg" @click="navigation(item.videos[i + index].id)" :style="item.videos[i + index].thumbUrl ? `background: url(${item.videos[i + index].thumbUrl}) center no-repeat; background-size: cover;` : ''">
+              </div>
+              <div class="listTips l ovh" style="background-color: rgba(0, 0, 0, .3)">
+                <div class="l">{{ item.videos[i + index].date }}</div>
+                <div class="r" :style="item.videos[i + index].isCompleted ? 'background-color: #67C23A;' : ''">{{ item.videos[i + index].isCompleted ? '已完成' : '未完成' }}</div>
+              </div>
+              <el-row class="listTools" :gutter="10">
+                <el-col :span="24">
+                  <div class="listInfo">
+                    <div class="name">{{ item.videos[i + index].name }}</div>
+                    <div class="introduction" :title="item.videos[i + index].introduction">{{ item.videos[i + index].introduction }}</div>
+                  </div>
+                </el-col>
+              </el-row>
+            </el-col>
+          </el-row>
+        </div>
       </div>
     </div>
   </div>
@@ -52,9 +54,13 @@
 
 <script>
 import service from '../../../service/service.js'
+import Header from '../../../components/part/Header.vue'
 
 export default {
   name: 'VideoList',
+  components: {
+    Header
+  },
   data () {
     return {
       tips: '需完成下列任务才可进行答题',
@@ -84,7 +90,7 @@ export default {
         })
       }
       if (data.status === '0x5002') {
-        this.$router.push('/')
+        this.$parent.logout()
       }
       this.learnDuration = this.$parent.secondToDate(data.data.learnDuration).date
       this.completeDuration = this.$parent.secondToDate(data.data.completeDuration).date
@@ -109,7 +115,7 @@ export default {
         })
       }
       if (res.data.status === '0x5002') {
-        this.$router.push('/')
+        this.$parent.logout()
       }
       let taskList = res.data.data
 
@@ -149,7 +155,7 @@ export default {
         })
       }
       if (data.status === '0x5002') {
-        this.$router.push('/')
+        this.$parent.logout()
       }
 
       for (let item of data.data) {

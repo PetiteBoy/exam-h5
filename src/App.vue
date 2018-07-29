@@ -5,8 +5,16 @@
 </template>
 
 <script>
+import { removeSessionStorage } from './utils/base.js'
+
 export default {
-  name: 'App'
+  name: 'App',
+  methods: {
+    logout () {
+      removeSessionStorage('authKey')
+      this.$router.push('/login')
+    }
+  }
 }
 </script>
 

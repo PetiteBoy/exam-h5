@@ -44,7 +44,7 @@ export default {
         })
       }
       if (data.status === '0x5002') {
-        this.$router.push('/')
+        this.$parent.logout()
       }
       this.notice = data.data
     }).catch(err => {
@@ -61,7 +61,7 @@ export default {
     },
     logout () {
       removeSessionStorage('authKey')
-      this.$router.push('/')
+      this.$parent.logout()
     }
   }
 }

@@ -1,23 +1,25 @@
 <template>
   <div class="container">
-    <video id="video" class="r"></video>
-    <div class="title">第{{ questionNum }}题/共{{ total }}题 <span>倒计时 {{ time }}</span></div>
-    <el-row :gutter="20">
-      <el-col :span="24">{{ question }}</el-col>
-    </el-row>
-    <div class="options ovh">
-      <el-radio-group class="l" :span="img ? 18 : 24" v-model="userAnswers" @change="answers" :disabled="finish">
-        <el-radio class="radioItem" v-for="item in optionsArr" :key="item.k" :label="item.k">{{ item.v }}</el-radio>
-      </el-radio-group>
-      <img v-if="img" class="optionsImg" :src="img">
+    <div id="body">
+      <video id="video" class="r"></video>
+      <div class="title">第{{ questionNum }}题/共{{ total }}题 <span>倒计时 {{ time }}</span></div>
+      <el-row :gutter="20">
+        <el-col :span="24">{{ question }}</el-col>
+      </el-row>
+      <div class="options ovh">
+        <el-radio-group class="l" :span="img ? 18 : 24" v-model="userAnswers" @change="answers" :disabled="finish">
+          <el-radio class="radioItem" v-for="item in optionsArr" :key="item.k" :label="item.k">{{ item.v }}</el-radio>
+        </el-radio-group>
+        <img v-if="img" class="optionsImg" :src="img">
+      </div>
+      <div v-if="finish">
+        <div :class="userAnswers === answer ? 'success' : 'danger'">您的答案：{{ userAnswers }}</div>
+        <div class="success"> 正确答案：{{ answer }}</div>
+        <div class="answerContentTitle">题目详解:</div>
+        <div class="answerContent">{{ explains }}</div>
+      </div>
+      <el-button :type="finish ? 'primary' : 'info'" @click="total > questionNum ? nextQuestion() : record()">{{ total > questionNum ? '下一题' : '完成' }}</el-button>
     </div>
-    <div v-if="finish">
-      <div :class="userAnswers === answer ? 'success' : 'danger'">您的答案：{{ userAnswers }}</div>
-      <div class="success"> 正确答案：{{ answer }}</div>
-      <div class="answerContentTitle">题目详解:</div>
-      <div class="answerContent">{{ explains }}</div>
-    </div>
-    <el-button :type="finish ? 'primary' : 'info'" @click="total > questionNum ? nextQuestion() : record()">{{ total > questionNum ? '下一题' : '完成' }}</el-button>
   </div>
 </template>
 
@@ -84,7 +86,7 @@ export default {
           })
         }
         if (data.status === '0x5002') {
-          this.$router.push('/')
+          this.$parent.logout()
         }
         this.question = data.data.question
         this.img = data.data.url
@@ -147,7 +149,7 @@ export default {
           })
         }
         if (data.status === '0x5002') {
-          this.$router.push('/')
+          this.$parent.logout()
         }
         costTime = this.$parent.secondToDate(costTime).date
         this.$router.push(`Result?correctNum=${this.answerRight}&wrongNum=${this.answerWrong}&costTime=${costTime}`)

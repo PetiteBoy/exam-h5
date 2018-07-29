@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <span>{{ userName }}</span>
-    <span @click="logout()">退123出</span>
+    <span @click="logout()">退出</span>
   </div>
 </template>
 
@@ -16,15 +16,16 @@ export default {
       userName: ''
     }
   },
-  methods () {
+  mounted () {
     this.getUserInfo()
   },
-  mounted: {
-    getUserInfo() {
+  methods: {
+    getUserInfo () {
       service.requestUrl({
         url: '/user/info'
       }).then(res => {
         const data = res.data
+        console.log(data)
         if (data.status !== '0x0000') {
           this.$message({
             showClose: true,
@@ -33,9 +34,8 @@ export default {
           })
         }
         if (data.status === '0x5002') {
-          this.$router.push('/')
+          this.$parent.logout()
         }
-        console.lgg(data)
         this.userName = data.data.phone
       }).catch(err => {
         this.$message({
@@ -45,7 +45,7 @@ export default {
         })
       })
     },
-    logout() {
+    logout () {
       removeSessionStorage('authKey')
       this.$router.push('/login')
     }

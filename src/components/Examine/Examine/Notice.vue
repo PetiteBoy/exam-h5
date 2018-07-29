@@ -1,15 +1,20 @@
 <template>
   <div class="container">
-    <div class="notice">
-      <div>{{ notice.title ? notice.title : '公告' }}</div>
-      <textarea disabled style="resize: none; width: 100%; height: 400px" v-model="notice.content"></textarea>
+    <Header class="head"></Header>
+
+    <div id="body">
+      <div class="notice">
+        <div>{{ notice.title ? notice.title : '公告' }}</div>
+        <textarea disabled style="resize: none; width: 100%; height: 400px" v-model="notice.content"></textarea>
+      </div>
+      <el-button type="primary" @click="navigation()">开始测试</el-button>
     </div>
-    <el-button type="primary" @click="navigation()">开始测试</el-button>
   </div>
 </template>
 
 <script>
 import service from '../../../service/service.js'
+import Header from '../../../components/part/Header.vue'
 
 export default {
   name: 'Notice',
@@ -17,6 +22,9 @@ export default {
     return {
       notice: ''
     }
+  },
+  components: {
+    Header
   },
   mounted () {
     service.requestUrl({
@@ -32,7 +40,7 @@ export default {
         })
       }
       if (data.status === '0x5002') {
-        this.$router.push('/')
+        this.$parent.logout()
       }
       this.notice = data.data
     }).catch(err => {
@@ -58,7 +66,7 @@ export default {
           })
         }
         if (data.status === '0x5002') {
-          this.$router.push('/')
+          this.$parent.logout()
         }
         this.$router.push(`Examine?totalNum=${data.data.totalNum}&period=${data.data.period}`)
       }).catch(err => {

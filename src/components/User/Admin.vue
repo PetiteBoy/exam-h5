@@ -52,7 +52,7 @@ export default {
         })
       }
       if (data.status === '0x5002') {
-        this.$router.push('/')
+        this.$parent.logout()
       }
       this.userInfo[0].v = data.data.phone
       this.userInfo[1].v = data.data.licenseType

@@ -1,12 +1,14 @@
 <template>
   <div class="container">
-    <div class="result">
-      <div>考试结果</div>
-      <el-row :gutter="20" v-for="(item, index) in list" :key="index">
-        <el-col :offset="9" :span="3">{{ item.k }}</el-col>
-        <el-col :span="3">{{ item.v }}</el-col>
-      </el-row>
-      <el-button type="primary" @click="navback">交卷</el-button>
+    <div id="body">
+      <div class="result">
+        <div>考试结果</div>
+        <el-row :gutter="20" v-for="(item, index) in list" :key="index">
+          <el-col :offset="9" :span="3">{{ item.k }}</el-col>
+          <el-col :span="3">{{ item.v }}</el-col>
+        </el-row>
+        <el-button type="primary" @click="navback">交卷</el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -39,7 +41,7 @@ export default {
   },
   methods: {
     navback () {
-      this.$router.push('/')
+      this.$parent.logout()
     }
   }
 }
