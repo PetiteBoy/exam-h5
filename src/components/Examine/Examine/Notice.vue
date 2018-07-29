@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div class="notice">
-      <div>{{ title }}</div>
-      <div>{{ content }}</div>
+      <div>{{ notice.title ? notice.title : '公告' }}</div>
+      <textarea disabled style="resize: none; width: 100%; height: 400px" v-model="notice.content"></textarea>
     </div>
     <el-button type="primary" @click="navigation()">开始测试</el-button>
   </div>
@@ -18,6 +18,21 @@ export default {
       title: '公告，你猜',
       content: '就不猜'
     }
+  },
+  mounted () {
+    service.requestUrl({
+      url: '/notice/find/checkquestion',
+      method: 'get'
+    }).then(res => {
+      const data = res.data
+      this.notice = data.data
+    }).catch(err => {
+      this.$message({
+        showClose: true,
+        message: err,
+        type: 'warning'
+      })
+    })
   },
   methods: {
     navigation () {
@@ -47,13 +62,15 @@ export default {
     margin-bottom: 40px;
   }
 
-  .notice > div:first-child {
+  .notice div {
     font-size: 24px;
     padding-bottom: 20px;
   }
 
-  .notice > div:last-child {
+  .notice textarea {
     text-align: left;
-    text-indent: 2em;
+    border: 0;
+    font-size: 14px;
+    display: block;
   }
 </style>

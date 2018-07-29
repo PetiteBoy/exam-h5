@@ -1,21 +1,37 @@
 <template>
   <div class="container">
     <div class="notice">
-      <div>{{ title }}</div>
-      <div>{{ content }}</div>
+      <div>{{ notice.title ? notice.title : '公告' }}</div>
+      <textarea disabled style="resize: none; width: 100%; height: 400px" v-model="notice.content"></textarea>
     </div>
     <el-button type="primary" @click="navigation()">开始学习</el-button>
   </div>
 </template>
 
 <script>
+import service from '../../../service/service.js'
+
 export default {
   name: 'Notice',
   data () {
     return {
-      title: '公告，你猜',
-      content: '就不猜'
+      notice: ''
     }
+  },
+  mounted () {
+    service.requestUrl({
+      url: '/notice/find/checkvideo',
+      method: 'get'
+    }).then(res => {
+      const data = res.data
+      this.notice = data.data
+    }).catch(err => {
+      this.$message({
+        showClose: true,
+        message: err,
+        type: 'warning'
+      })
+    })
   },
   methods: {
     navigation () {
@@ -27,18 +43,20 @@ export default {
 
 <style scoped>
   .notice {
-    padding: 40px;
+    padding: 20px;
     border: 1px #ddd solid;
     margin-bottom: 40px;
   }
 
-  .notice > div:first-child {
+  .notice div {
     font-size: 24px;
     padding-bottom: 20px;
   }
 
-  .notice > div:last-child {
+  .notice textarea {
     text-align: left;
-    text-indent: 2em;
+    border: 0;
+    font-size: 14px;
+    display: block;
   }
 </style>

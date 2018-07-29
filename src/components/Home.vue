@@ -5,7 +5,10 @@
       <span @click="logout()">退出</span>
     </div>
 
-    <div class="notice">{{ notice }}</div>
+    <div class="notice">
+      <div>{{ notice.title ? notice.title : '公告' }}</div>
+      <textarea disabled style="resize: none; width: 100%; height: 400px" v-model="notice.content"></textarea>
+    </div>
 
     <div class="tools">
       <el-button :span="8" type="danger">满分教育(敬请期待)</el-button>
@@ -17,16 +20,29 @@
 
 <script>
 import { removeSessionStorage } from '../utils/base.js'
+import service from '../service/service.js'
 
 export default {
   name: 'Home',
   data () {
     return {
-      name: 'test',
-      notice: '公告'
+      notice: ''
     }
   },
   mounted () {
+    service.requestUrl({
+      url: '/notice/find/global',
+      method: 'get'
+    }).then(res => {
+      const data = res.data
+      this.notice = data.data
+    }).catch(err => {
+      this.$message({
+        showClose: true,
+        message: err,
+        type: 'warning'
+      })
+    })
   },
   methods: {
     navigation (res) {
@@ -62,10 +78,23 @@ export default {
   }
 
   .notice {
-    width: 1000px;
-    height: 400px;
+    width: 960px;
+    min-height: 400px;
     border: 1px #ddd solid;
     margin: 20px auto;
+    padding: 20px;
+  }
+
+  .notice div {
+    font-size: 24px;
+    padding-bottom: 20px;
+  }
+
+  .notice textarea {
+    text-align: left;
+    border: 0;
+    font-size: 14px;
+    display: block;
   }
 
   .tools {

@@ -3,14 +3,14 @@
     <video id="video" class="r"></video>
     <div class="title">第{{ questionNum }}题/共{{ total }}题 <span>倒计时 {{ time }}</span></div>
     <el-row :gutter="20">
-      <el-col :span="img ? 18 : 24">{{ question }}</el-col>
-      <el-col v-if="img" :span="6">
-        <img :src="img">
-      </el-col>
+      <el-col :span="24">{{ question }}</el-col>
     </el-row>
-    <el-radio-group v-model="userAnswers" @change="answers" :disabled="finish">
-      <el-radio class="radioItem" v-for="item in optionsArr" :key="item.k" :label="item.k">{{ item.v }}</el-radio>
-    </el-radio-group>
+    <div class="options ovh">
+      <el-radio-group class="l" :span="img ? 18 : 24" v-model="userAnswers" @change="answers" :disabled="finish">
+        <el-radio class="radioItem" v-for="item in optionsArr" :key="item.k" :label="item.k">{{ item.v }}</el-radio>
+      </el-radio-group>
+      <img v-if="img" class="optionsImg" :src="img">
+    </div>
     <div v-if="finish">
       <div :class="userAnswers === answer ? 'success' : 'danger'">您的答案：{{ userAnswers }}</div>
       <div class="success"> 正确答案：{{ answer }}</div>
@@ -78,7 +78,7 @@ export default {
         const data = res.data
         console.log(data)
         this.question = data.data.question
-        this.img = data.data.imgUrlToken
+        this.img = data.data.url
 
         let optionsArr = []
         if (data.data.item1) {
@@ -196,7 +196,7 @@ export default {
     margin-bottom: 40px;
     border: 1px #ddd solid;
     position: fixed;
-    bottom: 0;
+    top: 0;
     right: 0;
   }
 
@@ -216,6 +216,14 @@ export default {
 
   .title span {
     font-size: 14px;
+  }
+
+  .options .el-radio-group {
+    width: 70%;
+  }
+
+  .options .optionsImg {
+    width: 30%;
   }
 
   .radioItem {
@@ -249,5 +257,9 @@ export default {
 
   .danger {
     color: #F56C6C;
+  }
+
+  .el-radio {
+    margin-left: 30px;
   }
 </style>
