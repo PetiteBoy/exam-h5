@@ -18,39 +18,39 @@ import ExamineExamineResult from '@/components/Examine/Examine/Result'
 Vue.use(Router)
 
 export default new Router({
-    routes: [{
-        path: '/',
-        component: Login
+  routes: [{
+    path: '/',
+    component: Login
+  }, {
+    path: '/Login',
+    component: Login
+  }, {
+    path: '/Home',
+    component: Home
+  }, {
+    path: '/User/Admin',
+    component: UserAdmin
+  }, {
+    path: '/Examine/Index',
+    component: ExamineIndex,
+    children: [{
+      path: '/',
+      component: ExamineVideoNotice
     }, {
-        path: '/Login',
-        component: Login
+      path: '/Examine/Video/List',
+      component: ExamineVideoList
     }, {
-        path: '/Home',
-        component: Home
+      path: '/Examine/Video/Info',
+      component: ExamineVideoInfo
     }, {
-        path: '/User/Admin',
-        component: UserAdmin
+      path: '/Examine/Examine/Notice',
+      component: ExamineExamineNotice
     }, {
-        path: '/Examine/Index',
-        component: ExamineIndex,
-        children: [{
-            path: '/',
-            component: ExamineVideoNotice
-        }, {
-            path: '/Examine/Video/List',
-            component: ExamineVideoList
-        }, {
-            path: '/Examine/Video/Info',
-            component: ExamineVideoInfo
-        }, {
-            path: '/Examine/Examine/Notice',
-            component: ExamineExamineNotice
-        }, {
-            path: '/Examine/Examine/Examine',
-            component: ExamineExamineExamine
-        }, {
-            path: '/Examine/Examine/Result',
-            component: ExamineExamineResult
-        }]
+      path: '/Examine/Examine/Examine',
+      component: ExamineExamineExamine
+    }, {
+      path: '/Examine/Examine/Result',
+      component: ExamineExamineResult
     }]
+  }]
 })
