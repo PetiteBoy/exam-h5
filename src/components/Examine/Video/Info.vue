@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <Header class="head"></Header>
+    <div class="header">
+      <span class="l" @click="returnBack()">返回</span>
+    </div>
     <div id="body">
       <video id="video" class="r"></video>
       <div class="title">{{ mediaInfo.categoryName }}</div>
@@ -24,7 +26,6 @@
 
 <script>
 import service from '../../../service/service.js'
-import Header from '../../../components/part/Header.vue'
 
 export default {
   name: 'VideoInfo',
@@ -37,11 +38,9 @@ export default {
       mediaInfo: '',
       recordInterval: '',
       completeDuration: '',
-      duration: ''
+      duration: '',
+      userName: ''
     }
-  },
-  components: {
-    Header
   },
   mounted () {
     this.getId()
@@ -76,6 +75,9 @@ export default {
     })
   },
   methods: {
+    returnBack () {
+      window.history.back()
+    },
     getId () {
       this.id = this.$route.query.id
 
@@ -160,6 +162,27 @@ export default {
 </script>
 
 <style scoped>
+  .header {
+    height: 60px;
+    background: #545c64;
+    width: 100%;
+    line-height: 60px;
+    color: #ffffff;
+    text-align: right;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  .header span {
+    cursor: pointer;
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+
+  .header span:hover {
+    color: #dddddd;
+  }
+
   #video {
     width: 200px;
     height: 150px;

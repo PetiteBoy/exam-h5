@@ -1,7 +1,9 @@
 <template>
   <div class="container">
-    <Header class="head"></Header>
-
+    <div class="header">
+      <span>{{ userName }}</span>
+      <span @click="logout()">注销</span>
+    </div>
     <div class="notice">
       <div>{{ notice.title ? notice.title : '公告' }}</div>
       <textarea disabled style="resize: none; width: 100%; height: 400px" v-model="notice.content"></textarea>
@@ -18,19 +20,17 @@
 <script>
 import { removeSessionStorage } from '../utils/base.js'
 import service from '../service/service.js'
-import Header from '../components/part/Header.vue'
 
 export default {
   name: 'Home',
-  components: {
-    Header
-  },
   data () {
     return {
-      notice: ''
+      notice: '',
+      userName: ''
     }
   },
   mounted () {
+    this.getUserInfo()
     service.requestUrl({
       url: '/notice/find/global',
       method: 'get'
@@ -56,6 +56,31 @@ export default {
     })
   },
   methods: {
+    getUserInfo () {
+      service.requestUrl({
+        url: '/user/info'
+      }).then(res => {
+        const data = res.data
+        console.log(data)
+        if (data.status !== '0x0000') {
+          this.$message({
+            showClose: true,
+            message: res.data.message,
+            type: 'warning'
+          })
+        }
+        if (data.status === '0x5002') {
+          this.$parent.logout()
+        }
+        this.userName = data.data.phone
+      }).catch(err => {
+        this.$message({
+          showClose: true,
+          message: err,
+          type: 'warning'
+        })
+      })
+    },
     navigation (res) {
       this.$router.push(res)
     },
@@ -81,6 +106,7 @@ export default {
 
   .header span {
     cursor: pointer;
+    margin-left: 15px;
     margin-right: 15px;
   }
 

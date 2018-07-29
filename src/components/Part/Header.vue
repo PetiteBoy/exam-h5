@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <span class="l" @click="returnBack()"> 返回</span>
+    <span class="l" @click="returnBack()">返回</span>
     <span>{{ userName }}</span>
     <span @click="logout()">注销</span>
   </div>
