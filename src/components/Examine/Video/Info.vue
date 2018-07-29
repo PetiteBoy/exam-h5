@@ -142,10 +142,13 @@ export default {
 
 <style scoped>
   #video {
-    width: 300px;
-    height: 200px;
+    width: 200px;
+    height: 150px;
     margin-bottom: 40px;
     border: 1px #ddd solid;
+    position: fixed;
+    top: 0;
+    right: 0;
   }
 
   .title {

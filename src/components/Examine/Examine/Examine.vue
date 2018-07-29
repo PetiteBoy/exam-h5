@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <video id="video" class="r"></video>
-    <div class="title">第{{ questionNum }}题/题目总数{{ total }} 倒计时 {{ time }}</div>
+    <div class="title">第{{ questionNum }}题/共{{ total }}题 <span>倒计时 {{ time }}</span></div>
     <el-row :gutter="20">
       <el-col :span="img ? 18 : 24">{{ question }}</el-col>
       <el-col v-if="img" :span="6">
@@ -12,7 +12,9 @@
       <el-radio class="radioItem" v-for="item in optionsArr" :key="item.k" :label="item.k">{{ item.v }}</el-radio>
     </el-radio-group>
     <div v-if="finish">
-      <div :class="userAnswers === answer ? 'success' : 'danger'">您的答案：{{ userAnswers }} 正确答案：{{ answer }}</div>
+      <div :class="userAnswers === answer ? 'success' : 'danger'">您的答案：{{ userAnswers }}</div>
+      <div class="success"> 正确答案：{{ answer }}</div>
+      <div class="answerContentTitle">题目详解:</div>
       <div class="answerContent">{{ explains }}</div>
     </div>
     <el-button :type="finish ? 'primary' : 'info'" @click="total > questionNum ? nextQuestion() : record()">{{ total > questionNum ? '下一题' : '完成' }}</el-button>
@@ -189,10 +191,13 @@ export default {
 
 <style scoped>
   #video {
-    width: 300px;
-    height: 200px;
+    width: 200px;
+    height: 150px;
     margin-bottom: 40px;
     border: 1px #ddd solid;
+    position: fixed;
+    bottom: 0;
+    right: 0;
   }
 
   .container {
@@ -209,6 +214,10 @@ export default {
     line-height: 100px;
   }
 
+  .title span {
+    font-size: 14px;
+  }
+
   .radioItem {
     display: block;
     margin-left: 0;
@@ -219,9 +228,13 @@ export default {
     word-break: break-all;
   }
 
+  .answerContentTitle {
+    padding-top: 20px;
+    font-weight: bold;
+  }
+
   .answerContent {
     line-height: 30px;
-    padding-top: 20px;
     padding-bottom: 20px;
   }
 
