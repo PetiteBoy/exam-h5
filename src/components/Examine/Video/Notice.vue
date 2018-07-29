@@ -1,15 +1,19 @@
 <template>
   <div class="container">
-    <div class="notice">
-      <div>{{ notice.title ? notice.title : '公告' }}</div>
-      <textarea disabled style="resize: none; width: 100%; height: 400px" v-model="notice.content"></textarea>
+    <Header class="head"></Header>
+    <div id="body">
+      <div class="notice">
+        <div>{{ notice.title ? notice.title : '公告' }}</div>
+        <textarea disabled style="resize: none; width: 100%; height: 400px" v-model="notice.content"></textarea>
+      </div>
+      <el-button type="primary" @click="navigation()">开始学习</el-button>
     </div>
-    <el-button type="primary" @click="navigation()">开始学习</el-button>
   </div>
 </template>
 
 <script>
 import service from '../../../service/service.js'
+import Header from '../../../components/part/Header.vue'
 
 export default {
   name: 'Notice',
@@ -17,6 +21,9 @@ export default {
     return {
       notice: ''
     }
+  },
+  components: {
+    Header
   },
   mounted () {
     service.requestUrl({

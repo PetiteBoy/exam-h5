@@ -28,12 +28,13 @@
         <div class="listTitle">{{ item.name }}</div>
         <el-row class="listContent" v-for="(videoItem, index) in item.videos" :key="videoItem.id" :gutter="20" v-if="index % 4 === 0">
           <el-col :span="6" v-for="i in [0, 1, 2, 3]" :key="i" v-if="item.videos[i + index]">
-            <div class="listImg" @mouseover="showListTips(item.videos[i + index])" @mouseout="hideListTips(item.videos[i + index])" @click="navigation(item.videos[i + index].id)" :style="item.videos[i + index].thumbUrl ? `background: url(${item.videos[i + index].thumbUrl}) center no-repeat;` : ''">
+            <div class="listImg" @click="navigation(item.videos[i + index].id)" :style="item.videos[i + index].thumbUrl ? `background: url(${item.videos[i + index].thumbUrl}) center no-repeat; background-size: cover;` : ''">
             </div>
-            <div class="listTips l" style="background-color: rgba(0, 0, 0, .3)" v-if="item.videos[i + index].active">{{ item.videos[i + index].date }}</div>
-            <div class="listTips l" v-else></div>
-            <div class="listTips r" :style="item.videos[i + index].isCompleted ? 'background-color: #67C23A;' : 'background-color: #F56C6C;'" v-if="item.videos[i + index].active">{{ item.videos[i + index].isCompleted ? '已完成' : '未完成' }}</div>
-            <div class="listTips r" v-else></div>
+            <div class="listTips l ovh" style="background-color: rgba(0, 0, 0, .3)">
+              <div class="l">{{ item.videos[i + index].date }}</div>
+              <div class="r" :style="item.videos[i + index].isCompleted ? 'background-color: #67C23A;' : ''">{{ item.videos[i + index].isCompleted ? '已完成' : '未完成' }}</div>
+            </div>
+            <!--<div class="listTips r" >{{ item.videos[i + index].isCompleted ? '已完成' : '未完成' }}</div>-->
             <el-row class="listTools" :gutter="10">
               <el-col :span="24">
                 <div class="listInfo">
@@ -250,12 +251,21 @@ export default {
 
   .listTips {
     position: relative;
-    top: -17px;
+    top: -20px;
     color: #fff;
     text-align: center;
-    width: 50px;
-    height: 17px;
+    width: 100%;
+    line-height: 20px;
     font-size: 12px;
+  }
+
+  .listTips > div:first-child {
+    padding-left: 10px;
+  }
+
+  .listTips > div:last-child {
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
   .listTools {
@@ -292,6 +302,7 @@ export default {
     vertical-align: middle;
     text-align: center;
     background: url("../../../assets/listImg.jpg") center no-repeat;
+    background-size: cover;
   }
 
   .listImg:hover {

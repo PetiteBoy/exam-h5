@@ -41,4 +41,9 @@ export default {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
+  #body {
+    width: 1000px;
+    margin: 40px auto;
+  }
 </style>

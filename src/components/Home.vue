@@ -1,9 +1,6 @@
 <template>
   <div class="container">
-    <div class="header">
-      <span>{{ name }}</span>
-      <span @click="logout()">退出</span>
-    </div>
+    <Header class="head"></Header>
 
     <div class="notice">
       <div>{{ notice.title ? notice.title : '公告' }}</div>
@@ -21,9 +18,13 @@
 <script>
 import { removeSessionStorage } from '../utils/base.js'
 import service from '../service/service.js'
+import Header from '../components/part/Header.vue'
 
 export default {
   name: 'Home',
+  components: {
+    Header
+  },
   data () {
     return {
       notice: ''

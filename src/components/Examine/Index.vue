@@ -63,8 +63,5 @@ export default {
 </script>
 
 <style scoped>
-  .index-container {
-    width: 1000px;
-    margin: 40px auto;
-  }
+
 </style>

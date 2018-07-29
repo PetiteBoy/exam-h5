@@ -2,8 +2,11 @@
   <div class="container">
     <video id="video" class="r"></video>
     <div class="title">{{ mediaInfo.categoryName }}</div>
-    <div class="content">{{ mediaInfo.introduction }}</div>
-    <video id="videoInfo"  :src="mediaInfo.url" width="100%" height="640"></video>
+    <div class="content">
+      <div>视频标题：{{ mediaInfo.name }}</div>
+      <div>视频描述：{{ mediaInfo.introduction }}</div>
+    </div>
+    <video id="videoInfo" @click="mediaTools('tools')" :src="mediaInfo.url" width="100%" height="640"></video>
     <el-button class="l" type="primary" @click="mediaTools('tools')">{{ media ? '播放' : '暂停' }}</el-button>
     <div class="videoDate l">{{ completeDuration }} / {{ duration }}</div>
     <el-button class="r" type="success" @click="mediaTools('full')">全屏</el-button>
@@ -160,14 +163,14 @@ export default {
     right: 0;
   }
 
+  #videoInfo {
+    cursor: pointer;
+  }
+
   .title {
     font-size: 24px;
     font-weight: bold;
     line-height: 100px;
-  }
-
-  .content {
-    text-indent: 2em;
   }
 
   .container{
