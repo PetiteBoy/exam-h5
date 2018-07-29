@@ -60,6 +60,14 @@ export default {
         service
           .login(this.loginData)
           .then(res => {
+            if (res.data.status !== '0x0000') {
+              this.$message({
+                showClose: true,
+                message: res.data.message,
+                type: 'warning'
+              })
+              return
+            }
             setSessionStorage('authKey', res.data.data.authKey)
             this.$router.push('/home')
           })

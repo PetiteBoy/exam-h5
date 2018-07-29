@@ -24,6 +24,16 @@ export default {
       method: 'get'
     }).then(res => {
       const data = res.data
+      if (data.status !== '0x0000') {
+        this.$message({
+          showClose: true,
+          message: res.data.message,
+          type: 'warning'
+        })
+      }
+      if (data.status === '0x5002') {
+        this.$router.push('/')
+      }
       this.notice = data.data
     }).catch(err => {
       this.$message({
@@ -40,7 +50,16 @@ export default {
         method: 'get'
       }).then(res => {
         const data = res.data
-        console.log(data)
+        if (data.status !== '0x0000') {
+          this.$message({
+            showClose: true,
+            message: res.data.message,
+            type: 'warning'
+          })
+        }
+        if (data.status === '0x5002') {
+          this.$router.push('/')
+        }
         this.$router.push(`Examine?totalNum=${data.data.totalNum}&period=${data.data.period}`)
       }).catch(err => {
         this.$message({

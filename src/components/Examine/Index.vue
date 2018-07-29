@@ -40,7 +40,16 @@ export default {
         }
       }).then(res => {
         const data = res.data
-        console.log(data)
+        if (data.status !== '0x0000') {
+          this.$message({
+            showClose: true,
+            message: res.data.message,
+            type: 'warning'
+          })
+        }
+        if (data.status === '0x5002') {
+          this.$router.push('/')
+        }
       }).catch(err => {
         this.$message({
           showClose: true,

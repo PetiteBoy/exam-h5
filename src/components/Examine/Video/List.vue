@@ -75,6 +75,16 @@ export default {
       method: 'get'
     }).then(res => {
       const data = res.data
+      if (data.status !== '0x0000') {
+        this.$message({
+          showClose: true,
+          message: res.data.message,
+          type: 'warning'
+        })
+      }
+      if (data.status === '0x5002') {
+        this.$router.push('/')
+      }
       this.learnDuration = this.$parent.secondToDate(data.data.learnDuration).date
       this.completeDuration = this.$parent.secondToDate(data.data.completeDuration).date
     }).catch(err => {
@@ -90,6 +100,16 @@ export default {
       method: 'get'
     }).then(res => {
       const that = this
+      if (res.data.data.status !== '0x0000') {
+        this.$message({
+          showClose: true,
+          message: res.data.message,
+          type: 'warning'
+        })
+      }
+      if (res.data.data.status === '0x5002') {
+        this.$router.push('/')
+      }
       let taskList = res.data.data
 
       taskList.map(function (v, i) {
@@ -107,8 +127,6 @@ export default {
       })
 
       this.taskList = taskList
-
-      console.log(taskList)
     }).catch(err => {
       this.$message({
         showClose: true,
@@ -122,6 +140,13 @@ export default {
       method: 'get'
     }).then(res => {
       const data = res.data
+      if (data.status !== '0x0000') {
+        this.$message({
+          showClose: true,
+          message: res.data.message,
+          type: 'warning'
+        })
+      }
       if (data.status === '0x5002') {
         this.$router.push('/')
       }

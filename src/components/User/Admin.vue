@@ -44,6 +44,16 @@ export default {
       url: '/user/info'
     }).then(res => {
       const data = res.data
+      if (data.status !== '0x0000') {
+        this.$message({
+          showClose: true,
+          message: res.data.message,
+          type: 'warning'
+        })
+      }
+      if (data.status === '0x5002') {
+        this.$router.push('/')
+      }
       this.userInfo[0].v = data.data.phone
       this.userInfo[1].v = data.data.licenseType
       this.userInfo[2].v = data.data.licenseNo

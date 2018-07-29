@@ -76,7 +76,16 @@ export default {
         method: 'get'
       }).then(res => {
         const data = res.data
-        console.log(data)
+        if (data.status !== '0x0000') {
+          this.$message({
+            showClose: true,
+            message: res.data.message,
+            type: 'warning'
+          })
+        }
+        if (data.status === '0x5002') {
+          this.$router.push('/')
+        }
         this.question = data.data.question
         this.img = data.data.url
 
@@ -130,7 +139,16 @@ export default {
         }
       }).then(res => {
         const data = res.data
-        console.log(data)
+        if (data.status !== '0x0000') {
+          this.$message({
+            showClose: true,
+            message: res.data.message,
+            type: 'warning'
+          })
+        }
+        if (data.status === '0x5002') {
+          this.$router.push('/')
+        }
         costTime = this.$parent.secondToDate(costTime).date
         this.$router.push(`Result?correctNum=${this.answerRight}&wrongNum=${this.answerWrong}&costTime=${costTime}`)
       }).catch(err => {

@@ -74,7 +74,16 @@ export default {
         method: 'get'
       }).then(res => {
         const data = res.data
-        console.log(data)
+        if (data.status !== '0x0000') {
+          this.$message({
+            showClose: true,
+            message: res.data.message,
+            type: 'warning'
+          })
+        }
+        if (data.status === '0x5002') {
+          this.$router.push('/')
+        }
         this.mediaInfo = data.data
         this.currentTime = data.data.completedDuration || 0
         this.duration = this.$parent.secondToDate(data.data.duration).date
