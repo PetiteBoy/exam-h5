@@ -15,8 +15,7 @@ export default {
   name: 'Notice',
   data () {
     return {
-      title: '公告，你猜',
-      content: '就不猜'
+      notice: ''
     }
   },
   mounted () {
