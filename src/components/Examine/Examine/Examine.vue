@@ -45,7 +45,7 @@ export default {
     }
   },
   mounted () {
-    // this.webRtc()
+    this.webRtc()
     // this.bindCapture()
     this.total = this.$route.query.totalNum
     this.timestampOld = this.$route.query.period * 60

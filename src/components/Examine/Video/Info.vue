@@ -2,8 +2,10 @@
   <div class="container">
     <video id="video" class="r"></video>
     <div class="title">{{ mediaInfo.categoryName }}</div>
+    <div class="content">{{ mediaInfo.introduction }}</div>
     <video id="videoInfo"  :src="mediaInfo.url" width="100%" height="640"></video>
-    <el-button type="primary" @click="mediaTools('tools')">{{ media ? '播放' : '暂停' }}</el-button>
+    <el-button class="l" type="primary" @click="mediaTools('tools')">{{ media ? '播放' : '暂停' }}</el-button>
+    <div class="videoDate l">{{ completeDuration }} / {{ duration }}</div>
     <el-button class="r" type="success" @click="mediaTools('full')">全屏</el-button>
     <div class="r ovh">
       <div class="l">音量</div>
@@ -23,21 +25,28 @@ export default {
     return {
       id: 1,
       media: true,
-      currentTime: 4,
+      currentTime: 0,
       mediaVolume: 70,
       mediaInfo: '',
-      recordInterval: ''
+      recordInterval: '',
+      completeDuration: '',
+      duration: ''
     }
   },
   mounted () {
     this.getId()
+    this.webRtc()
     this.record()
 
     const that = this
     const Media = document.getElementById('videoInfo')
 
     Media.currentTime = this.currentTime
+    this.completeDuration = this.$parent.secondToDate(Media.currentTime).date
 
+    Media.addEventListener('timeupdate', function () {
+      that.completeDuration = that.$parent.secondToDate(Media.currentTime).date
+    })
     Media.addEventListener('ended', function () {
       that.$parent.record({
         videoId: that.id,
@@ -68,12 +77,25 @@ export default {
         console.log(data)
         this.mediaInfo = data.data
         this.currentTime = data.data.completedDuration || 0
+        this.duration = this.$parent.secondToDate(data.data.duration).date
       }).catch(err => {
         this.$message({
           showClose: true,
           message: err,
           type: 'warning'
         })
+      })
+    },
+    webRtc () {
+      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia
+      const video = document.getElementById('video')
+      navigator.getUserMedia({
+        video: true
+      }, function (stream) {
+        video.src = window.URL.createObjectURL(stream)
+        video.play()
+      }, function (error) {
+        alert(error.name || error)
       })
     },
     mediaTools (res) {
@@ -132,13 +154,23 @@ export default {
     line-height: 100px;
   }
 
+  .content {
+    text-indent: 2em;
+  }
+
   .container{
     text-align: left;
+    padding-bottom: 40px;
   }
 
   .block {
     width: 200px;
     margin-right: 20px;
+  }
+
+  .videoDate {
+    line-height: 40px;
+    padding-left: 20px;
   }
 
   .ovh .l {

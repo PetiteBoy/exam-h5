@@ -11,14 +11,14 @@
           </el-tooltip>
         </div>
         <div>
-          <div>今日至少学习{{ learnDuration }}小时，目前已经学习{{ completeDuration }}</div>
+          <div>今日至少学习{{ learnDuration }}，目前已经学习{{ completeDuration }}</div>
           <div>提示：请务必保证学习时长大于3小时，否则无法生成相应学习记录</div>
         </div>
       </div>
       <div class="taskList">
         <el-row :gutter="20" v-for="item in taskList" :key="item.categoryId">
-          <el-col :span="12">{{ item.categoryName }}至少完整学习{{ item.learnNum }}个视频</el-col>
-          <el-col :span="3" :class="item.status === 1 ? 'success' : item.status === 0 ? 'danger' : 'info'">{{ item.status === 1 ? '已完成' : item.status === 0 ? '未完成' : '不要求' }}
+          <el-col :span="10">{{ item.categoryName }} <span :class="item.status === 1 ? 'success' : item.status === 0 ? 'danger' : 'info'">至少完整学习{{ item.learnNum }}个视频</span></el-col>
+          <el-col :span="3" :class="item.status === 1 ? 'success' : item.status === 0 ? 'danger' : 'info'">{{ item.status === 1 ? '已完成' : item.status === 0 ? '未完成' : '无要求' }}
           </el-col>
         </el-row>
       </div>
@@ -28,19 +28,18 @@
         <div class="listTitle">{{ item.name }}</div>
         <el-row class="listContent" v-for="(videoItem, index) in item.videos" :key="videoItem.id" :gutter="20" v-if="index % 4 === 0">
           <el-col :span="6" v-for="i in [0, 1, 2, 3]" :key="i" v-if="item.videos[i + index]">
-            <img :src="item.videos[i + index].thumbUrl">
-            <div class="listTips r" :style="item.videos[i + index].isCompleted ? '' : 'background-color: #F56C6C;'">{{ item.videos[i + index].isCompleted ? '已完成' : '未完成' }}</div>
+            <div class="listImg" @mouseover="showListTips(item.videos[i + index])" @mouseout="hideListTips(item.videos[i + index])" @click="navigation(item.videos[i + index].id)" :style="item.videos[i + index].thumbUrl ? `background: url(${item.videos[i + index].thumbUrl}) center no-repeat;` : ''">
+            </div>
+            <div class="listTips l" style="background-color: rgba(0, 0, 0, .3)" v-if="item.videos[i + index].active">{{ item.videos[i + index].date }}</div>
+            <div class="listTips l" v-else></div>
+            <div class="listTips r" :style="item.videos[i + index].isCompleted ? 'background-color: #67C23A;' : 'background-color: #F56C6C;'" v-if="item.videos[i + index].active">{{ item.videos[i + index].isCompleted ? '已完成' : '未完成' }}</div>
+            <div class="listTips r" v-else></div>
             <el-row class="listTools" :gutter="10">
-              <el-col :span="14">
+              <el-col :span="24">
                 <div class="listInfo">
-                  <div class="overwrap">{{ item.videos[i + index].id }}. {{ item.videos[i + index].name }}</div>
-                  <div class="overwrap">{{ item.videos[i + index].date }}</div>
+                  <div class="name">{{ item.videos[i + index].name }}</div>
+                  <div class="introduction" :title="item.videos[i + index].introduction">{{ item.videos[i + index].introduction }}</div>
                 </div>
-              </el-col>
-              <el-col :span="10">
-                <el-button type="primary" size="mini" style="width: 100%;" @click="navigation(item.videos[i + index].id)">
-                  {{item.videos[i + index].completedDuration > 0 && item.videos[i + index].duration !== item.videos[i + index].completedDuration ? '继续观看' : '观看' }}
-                </el-button>
               </el-col>
             </el-row>
           </el-col>
@@ -65,7 +64,9 @@ export default {
       completeDuration: '',
 
       taskList: '',
-      list: ''
+      list: '',
+
+      defaultListImg: ''
     }
   },
   mounted () {
@@ -74,7 +75,7 @@ export default {
       method: 'get'
     }).then(res => {
       const data = res.data
-      this.learnDuration = this.$parent.secondToDate(data.data.learnDuration).hour
+      this.learnDuration = this.$parent.secondToDate(data.data.learnDuration).date
       this.completeDuration = this.$parent.secondToDate(data.data.completeDuration).date
     }).catch(err => {
       this.$message({
@@ -141,7 +142,16 @@ export default {
     })
   },
   methods: {
+    showListTips (item) {
+      this.$nextTick(function () {
+        this.$set(item, 'active', true)
+      })
+    },
+    hideListTips (item) {
+      this.$set(item, 'active', false)
+    },
     navigation (res) {
+      console.log(res)
       if (res === 'examine') {
         this.$router.push('/Examine/Examine/Notice')
         return
@@ -181,6 +191,10 @@ export default {
     line-height: 30px;
   }
 
+  .taskList span {
+    font-size: 12px;
+  }
+
   .taskList .success {
     color: #67C23A;
   }
@@ -199,6 +213,7 @@ export default {
 
   .listTitle {
     font-size: 18px;
+    font-weight: bold;
     padding-bottom: 20px;
     border-bottom: 1px #ddd solid;
   }
@@ -210,11 +225,12 @@ export default {
 
   .listTips {
     position: relative;
-    top: -28px;
-    background-color: #67C23A;
+    top: -17px;
     color: #fff;
     text-align: center;
-    width: 60px;
+    width: 50px;
+    height: 17px;
+    font-size: 12px;
   }
 
   .listTools {
@@ -226,8 +242,34 @@ export default {
     margin-top: 10px;
   }
 
-  .list img {
+  .listInfo .name {
+    font-weight: bold;
+  }
+
+  .listInfo .introduction, .listInfo .date {
+    color: #666;
+    font-size: 12px;
+  }
+
+  .listInfo .introduction {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    height: 54px;
+  }
+
+  .listImg {
     width: 100%;
-    height: 150px;
+    height: 176.25px;
+    overflow: hidden;
+    vertical-align: middle;
+    text-align: center;
+    background: url("../../../assets/listImg.jpg") center no-repeat;
+  }
+
+  .listImg:hover {
+    cursor: pointer;
   }
 </style>
