@@ -52,6 +52,6 @@ export default {
 
   #body {
     width: 1000px;
-    margin: 40px auto;
+    margin: 20px auto;
   }
 </style>

@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <Header class="head"></Header>
     <div id="body">
       <video id="video" class="r"></video>
       <div class="title">{{ mediaInfo.categoryName }}</div>
@@ -23,6 +24,7 @@
 
 <script>
 import service from '../../../service/service.js'
+import Header from '../../../components/part/Header.vue'
 
 export default {
   name: 'VideoInfo',
@@ -37,6 +39,9 @@ export default {
       completeDuration: '',
       duration: ''
     }
+  },
+  components: {
+    Header
   },
   mounted () {
     this.getId()
@@ -163,6 +168,7 @@ export default {
     position: fixed;
     top: 0;
     right: 0;
+    background-color: #000000;
   }
 
   #videoInfo {

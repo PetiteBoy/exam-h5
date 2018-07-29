@@ -1,7 +1,8 @@
 <template>
   <div class="header">
+    <span class="l" @click="returnBack()"> 返回</span>
     <span>{{ userName }}</span>
-    <span @click="logout()">退出</span>
+    <span @click="logout()">注销</span>
   </div>
 </template>
 
@@ -48,6 +49,9 @@ export default {
     logout () {
       removeSessionStorage('authKey')
       this.$router.push('/login')
+    },
+    returnBack () {
+      this.$router.push('/Home')
     }
   }
 }
@@ -67,6 +71,7 @@ export default {
 
   .header span {
     cursor: pointer;
+    margin-left: 15px;
     margin-right: 15px;
   }
 

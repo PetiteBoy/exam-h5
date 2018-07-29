@@ -1,15 +1,19 @@
 <template>
   <div class="container">
-    <div class="title">个人信息</div>
-    <el-row :gutter="20" v-for="(item, index) in userInfo" :key="index">
-      <el-col :span="6">{{ item.k }}</el-col>
-      <el-col :span="18">{{ item.v }}</el-col>
-    </el-row>
+    <Header class="head"></Header>
+    <div id="body">
+      <div class="title">个人信息</div>
+      <el-row :gutter="20" v-for="(item, index) in userInfo" :key="index">
+        <el-col :span="6">{{ item.k }}</el-col>
+        <el-col :span="18">{{ item.v }}</el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 
 <script>
 import service from '../../service/service.js'
+import Header from '../../components/part/Header.vue'
 
 export default {
   name: 'Admin',
@@ -38,6 +42,9 @@ export default {
         v: ''
       }]
     }
+  },
+  components: {
+    Header
   },
   mounted () {
     service.requestUrl({
@@ -81,8 +88,6 @@ export default {
 
 <style scoped>
   .container {
-    width: 1000px;
-    margin: 40px auto;
     text-align: left;
   }
 
@@ -91,7 +96,7 @@ export default {
     font-weight: bold;
   }
 
-  .container > div {
+  .container #body > div {
     padding: 10px 0;
     border-bottom: 1px #ddd solid;
   }
