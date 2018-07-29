@@ -100,14 +100,14 @@ export default {
       method: 'get'
     }).then(res => {
       const that = this
-      if (res.data.data.status !== '0x0000') {
+      if (res.data.status !== '0x0000') {
         this.$message({
           showClose: true,
           message: res.data.message,
           type: 'warning'
         })
       }
-      if (res.data.data.status === '0x5002') {
+      if (res.data.status === '0x5002') {
         this.$router.push('/')
       }
       let taskList = res.data.data
