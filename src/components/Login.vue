@@ -3,14 +3,7 @@
     <div class="wrapper">
       <div class="login">
         <div class="loginform">
-          <div id="owl-login" :class="{'password': passwordStatus}">
-            <div class="hand"></div>
-            <div class="hand hand-r"></div>
-            <div class="arms">
-              <div class="arm"></div>
-              <div class="arm arm-r"></div>
-            </div>
-          </div>
+          <div class="title">满分审验教育考试系统</div>
           <div class="pad">
             <div class="control-group">
               <div class="controls">
@@ -101,13 +94,19 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style scoped>
+  .title {
+    padding-top: 20px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+
   #login {
     position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    background: url('../assets/login.jpg') no-repeat;
+    background: rgba(0, 0, 0, .3);
     background-size: cover;
   }
 

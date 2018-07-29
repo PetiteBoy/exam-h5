@@ -104,7 +104,7 @@ export default {
         video.src = window.URL.createObjectURL(stream)
         video.play()
       }, function (error) {
-        alert(error.name || error)
+        console.log(error.name || error)
       })
     },
     mediaTools (res) {
