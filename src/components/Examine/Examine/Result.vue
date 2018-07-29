@@ -6,7 +6,7 @@
         <el-col :offset="9" :span="3">{{ item.k }}</el-col>
         <el-col :span="3">{{ item.v }}</el-col>
       </el-row>
-      <el-button type="primary">交卷</el-button>
+      <el-button type="primary" @click="navback">交卷</el-button>
     </div>
   </div>
 </template>
@@ -36,6 +36,11 @@ export default {
     window.addEventListener('popstate', function () {
       window.history.forward(1)
     }, false)
+  },
+  methods: {
+    navback () {
+      this.$router.push('/')
+    }
   }
 }
 </script>
