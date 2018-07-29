@@ -19,6 +19,14 @@ export default {
   name: 'Admin',
   data () {
     return {
+      dataIdType: {
+        IDCARD: '居民身份证',
+        OFFICER: '军官证',
+        SOLDIER: '士兵证',
+        RETIRED: '军官离退休证',
+        OUTSIDE: '境外人员身份证',
+        DIPLOMATIC: '外交人员身份证明'
+      },
       userInfo: [{
         k: '手机号码',
         v: ''
@@ -65,7 +73,7 @@ export default {
       this.userInfo[1].v = data.data.licenseType
       this.userInfo[2].v = data.data.licenseNo
       this.userInfo[3].v = `${this.time(data.data.licenseBeginDate)} 至 ${this.time(data.data.licenseEndDate)}`
-      this.userInfo[4].v = data.data.idType
+      this.userInfo[4].v = this.dataIdType[data.data.idType]
       this.userInfo[5].v = data.data.idNo
       this.userInfo[6].v = this.time(data.data.createTime)
     }).catch(err => {
