@@ -39,7 +39,8 @@ export default {
       recordInterval: '',
       completeDuration: '',
       duration: '',
-      userName: ''
+      userName: '',
+      stream: ''
     }
   },
   mounted () {
@@ -110,9 +111,11 @@ export default {
     webRtc () {
       navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia
       const video = document.getElementById('video')
+      const that = this
       navigator.getUserMedia({
         video: true
       }, function (stream) {
+        that.stream = stream
         video.src = window.URL.createObjectURL(stream)
         video.play()
       }, function (error) {
@@ -156,6 +159,7 @@ export default {
     }
   },
   beforeDestroy () {
+    this.stream.getTracks()[0].stop()
     clearInterval(this.recordInterval)
   }
 }

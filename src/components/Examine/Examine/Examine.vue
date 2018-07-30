@@ -45,7 +45,8 @@ export default {
       userAnswers: '',
       answerRight: 0,
       answerWrong: 0,
-      countDownInterval: ''
+      countDownInterval: '',
+      stream: ''
     }
   },
   mounted () {
@@ -174,9 +175,11 @@ export default {
     webRtc () {
       navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia
       const video = document.getElementById('video')
+      const that = this
       navigator.getUserMedia({
         video: true
       }, function (stream) {
+        that.stream = stream
         video.src = window.URL.createObjectURL(stream)
         video.play()
       }, function (error) {
@@ -205,6 +208,9 @@ export default {
         setTimeout(this.bindCapture, 200)
       }
     }
+  },
+  beforeDestroy () {
+    this.stream.getTracks()[0].stop()
   }
 }
 </script>
