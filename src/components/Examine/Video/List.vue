@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <Header class="head"></Header>
+    <Aside class="aside"></Aside>
     <div id="body">
       <div class="task">
         <div class="taskHeader">
@@ -48,6 +49,7 @@
           </el-row>
         </div>
       </div>
+      <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
     </div>
   </div>
 </template>
@@ -55,11 +57,13 @@
 <script>
 import service from '../../../service/service.js'
 import Header from '../../../components/part/Header.vue'
+import Aside from '../../../components/part/Aside.vue'
 
 export default {
   name: 'VideoList',
   components: {
-    Header
+    Header,
+    Aside
   },
   data () {
     return {
