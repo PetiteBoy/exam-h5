@@ -26,15 +26,15 @@ export default new Router({
     component: Login
   }, {
     path: '/Home',
-    component: Home
-  }, {
-    path: '/User/Admin',
-    component: UserAdmin
-  }, {
-    path: '/Examine/Index',
-    component: ExamineIndex,
+    component: Home,
     children: [{
       path: '/',
+      component: ExamineIndex
+    }, {
+      path: '/User/Admin',
+      component: UserAdmin
+    }, {
+      path: '/Examine/Video/Notice',
       component: ExamineVideoNotice
     }, {
       path: '/Examine/Video/List',
@@ -45,12 +45,12 @@ export default new Router({
     }, {
       path: '/Examine/Examine/Notice',
       component: ExamineExamineNotice
-    }, {
-      path: '/Examine/Examine/Examine',
-      component: ExamineExamineExamine
-    }, {
-      path: '/Examine/Examine/Result',
-      component: ExamineExamineResult
     }]
+  }, {
+    path: '/Examine/Examine/Examine',
+    component: ExamineExamineExamine
+  }, {
+    path: '/Examine/Examine/Result',
+    component: ExamineExamineResult
   }]
 })

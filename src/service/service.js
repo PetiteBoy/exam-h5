@@ -16,13 +16,24 @@ class Service {
     const method = paramArr.method ? paramArr.method : 'POST'
     const data = paramArr.data ? paramArr.data : ''
 
-    return axios({
-      url: url,
-      method: method,
-      data: data,
-      headers: {
-        authKey: getSessionStorage('authKey')
-      }
+    return new Promise((resolve, reject) => {
+      axios({
+        url: url,
+        method: method,
+        data: data,
+        headers: {
+          authKey: getSessionStorage('authKey')
+        }
+      }).then(res => {
+        const data = res.data
+        if (data.status === '0x5002') {
+          location.hash = '/login'
+        } else {
+          resolve(data.data)
+        }
+      }).catch(err => {
+        reject(err)
+      })
     })
   }
 }

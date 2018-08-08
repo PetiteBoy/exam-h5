@@ -1,47 +1,37 @@
 <template>
   <div class="container">
-    <Header class="head"></Header>
-    <div id="body">
-      <div class="notice">
-        <div>{{ notice.title ? notice.title : '公告' }}</div>
-        <textarea disabled style="resize: none; width: 100%; height: 400px" v-model="notice.content"></textarea>
-      </div>
-      <el-button type="primary" @click="navigation()">开始学习</el-button>
+    <div class="noticeBack">
+      <i class="el-icon-arrow-left" @click="navBack"></i>
     </div>
+    <div class="notice">
+      <div>{{ notice.title ? notice.title : '公告' }}</div>
+      <textarea disabled style="resize: none; width: 100%; min-height: 480px" v-model="notice.content"></textarea>
+    </div>
+    <div class="noticeTips">
+      <i :class="iClass ? 'el-icon-circle-check active' : 'el-icon-circle-check'" @click="changeClass"></i>
+      我已认真读完
+    </div>
+    <el-button :type="iClass ? 'primary' : 'info'" @click="navigation()">前去观看视频</el-button>
   </div>
 </template>
 
 <script>
 import service from '../../../service/service.js'
-import Header from '../../../components/part/Header.vue'
 
 export default {
   name: 'Notice',
   data () {
     return {
-      notice: ''
+      notice: '',
+      iClass: true
     }
-  },
-  components: {
-    Header
   },
   mounted () {
     service.requestUrl({
       url: '/notice/find/checkvideo',
       method: 'get'
     }).then(res => {
-      const data = res.data
-      if (data.status !== '0x0000') {
-        this.$message({
-          showClose: true,
-          message: res.data.message,
-          type: 'warning'
-        })
-      }
-      if (data.status === '0x5002') {
-        this.$parent.logout()
-      }
-      this.notice = data.data
+      this.notice = res
     }).catch(err => {
       this.$message({
         showClose: true,
@@ -51,29 +41,64 @@ export default {
     })
   },
   methods: {
+    navBack () {
+      window.history.back()
+    },
+    changeClass () {
+      this.iClass = !this.iClass
+    },
     navigation () {
-      this.$router.push('/Examine/Video/List')
+      if (!this.iClass) return
+      this.$router.push('/Examine/Video/List?id=8')
     }
   }
 }
 </script>
 
 <style scoped>
+  .noticeBack {
+    text-align: left;
+  }
+
+  .noticeBack i {
+    font-size: 20px;
+    cursor: pointer;
+    padding-right: 15px;
+    padding-bottom: 15px;
+  }
+
   .notice {
-    padding: 20px;
-    border: 1px #ddd solid;
-    margin-bottom: 40px;
+    width: 880px;
+    min-height: 520px;
+    padding: 20px 60px;
+    background-color: #fff;
   }
 
   .notice div {
-    font-size: 24px;
+    font-size: 28px;
     padding-bottom: 20px;
   }
 
   .notice textarea {
     text-align: left;
     border: 0;
-    font-size: 14px;
+    font-size: 18px;
     display: block;
+    line-height: 36px;
+    color: #54667A;
+  }
+
+  .noticeTips {
+    font-size: 18px;
+    padding: 20px;
+  }
+
+  .noticeTips i {
+    color: #909399;
+    cursor: pointer;
+  }
+
+  .noticeTips i.active {
+    color: #409EFF;
   }
 </style>

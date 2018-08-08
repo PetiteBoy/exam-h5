@@ -1,19 +1,15 @@
 <template>
   <div class="container">
-    <Header class="head"></Header>
-    <div id="body">
-      <div class="title">个人信息</div>
-      <el-row :gutter="20" v-for="(item, index) in userInfo" :key="index">
-        <el-col :span="6">{{ item.k }}</el-col>
-        <el-col :span="18">{{ item.v }}</el-col>
-      </el-row>
-    </div>
+    <div class="title">个人信息</div>
+    <el-row :gutter="20" v-for="(item, index) in userInfo" :key="index">
+      <el-col :span="6">{{ item.k }}</el-col>
+      <el-col :span="18">{{ item.v }}</el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
 import service from '../../service/service.js'
-import Header from '../../components/part/Header.vue'
 
 export default {
   name: 'Admin',
@@ -51,31 +47,17 @@ export default {
       }]
     }
   },
-  components: {
-    Header
-  },
   mounted () {
     service.requestUrl({
       url: '/user/info'
     }).then(res => {
-      const data = res.data
-      if (data.status !== '0x0000') {
-        this.$message({
-          showClose: true,
-          message: res.data.message,
-          type: 'warning'
-        })
-      }
-      if (data.status === '0x5002') {
-        this.$parent.logout()
-      }
-      this.userInfo[0].v = data.data.phone
-      this.userInfo[1].v = data.data.licenseType
-      this.userInfo[2].v = data.data.licenseNo
-      this.userInfo[3].v = `${this.time(data.data.licenseBeginDate)} 至 ${this.time(data.data.licenseEndDate)}`
-      this.userInfo[4].v = this.dataIdType[data.data.idType]
-      this.userInfo[5].v = data.data.idNo
-      this.userInfo[6].v = this.time(data.data.createTime)
+      this.userInfo[0].v = res.phone
+      this.userInfo[1].v = res.licenseType
+      this.userInfo[2].v = res.licenseNo
+      this.userInfo[3].v = `${this.time(res.licenseBeginDate)} 至 ${this.time(res.licenseEndDate)}`
+      this.userInfo[4].v = this.dataIdType[res.idType]
+      this.userInfo[5].v = res.idNo
+      this.userInfo[6].v = this.time(res.createTime)
     }).catch(err => {
       this.$message({
         showClose: true,
@@ -104,7 +86,7 @@ export default {
     font-weight: bold;
   }
 
-  .container #body > div {
+  .container > div {
     padding: 10px 0;
     border-bottom: 1px #ddd solid;
   }

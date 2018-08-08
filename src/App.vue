@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -19,12 +19,16 @@ export default {
 </script>
 
 <style>
+  html, body {
+    background-color: #f8f8f8;
+  }
+
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    color: #2c3e50;
+    color: #54667a;
   }
 
   * {
@@ -52,6 +56,10 @@ export default {
 
   #body {
     width: 1000px;
-    margin: 20px auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 15px;
+    padding-top: 60px;
+    padding-left: 200px;
   }
 </style>

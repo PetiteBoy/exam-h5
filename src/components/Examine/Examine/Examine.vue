@@ -78,49 +78,38 @@ export default {
         url: '/question/next',
         method: 'get'
       }).then(res => {
-        const data = res.data
-        if (data.status !== '0x0000') {
-          this.$message({
-            showClose: true,
-            message: res.data.message,
-            type: 'warning'
-          })
-        }
-        if (data.status === '0x5002') {
-          this.$parent.logout()
-        }
-        this.question = data.data.question
-        this.img = data.data.url
+        this.question = res.question
+        this.img = res.url
 
         let optionsArr = []
-        if (data.data.item1) {
+        if (res.item1) {
           optionsArr.push({
             k: 'A',
-            v: `A: ${data.data.item1}`
+            v: `A: ${res.item1}`
           })
         }
-        if (data.data.item2) {
+        if (res.item2) {
           optionsArr.push({
             k: 'B',
-            v: `B: ${data.data.item2}`
+            v: `B: ${res.item2}`
           })
         }
-        if (data.data.item3) {
+        if (res.item3) {
           optionsArr.push({
             k: 'C',
-            v: `C: ${data.data.item3}`
+            v: `C: ${res.item3}`
           })
         }
-        if (data.data.item4) {
+        if (res.item4) {
           optionsArr.push({
             k: 'D',
-            v: `D: ${data.data.item4}`
+            v: `D: ${res.item4}`
           })
         }
 
         this.optionsArr = optionsArr
-        this.answer = data.data.answer
-        this.explains = data.data.explains
+        this.answer = res.answer
+        this.explains = res.explains
       }).catch(err => {
         this.$message({
           showClose: true,
@@ -141,17 +130,6 @@ export default {
           costTime: costTime
         }
       }).then(res => {
-        const data = res.data
-        if (data.status !== '0x0000') {
-          this.$message({
-            showClose: true,
-            message: res.data.message,
-            type: 'warning'
-          })
-        }
-        if (data.status === '0x5002') {
-          this.$parent.logout()
-        }
         costTime = this.$parent.secondToDate(costTime).date
         this.$router.push(`Result?correctNum=${this.answerRight}&wrongNum=${this.answerWrong}&costTime=${costTime}`)
       }).catch(err => {
@@ -197,7 +175,6 @@ export default {
         document.getElementById('capture').addEventListener(
           'click',
           function () {
-            console.log(video)
             canvas.getContext('2d').drawImage(
               video, 0, 0, videoWidth, videoHeight
             )
