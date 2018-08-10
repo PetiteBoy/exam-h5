@@ -27,7 +27,7 @@ export default {
     }).then(res => {
       const that = this
       res.map(function (v) {
-        if (v.learnNum !== v.completeNum) {
+        if (v.learnNum > 0 && v.learnNum !== v.completeNum) {
           that.status = 0
         }
       })
@@ -98,6 +98,10 @@ export default {
 
   .noticeTips {
     font-size: 18px;
-    padding: 20px;
+    padding-top: 20px;
+  }
+
+  .el-button {
+    margin-top: 20px;
   }
 </style>
