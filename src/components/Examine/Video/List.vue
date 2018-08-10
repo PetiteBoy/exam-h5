@@ -30,28 +30,28 @@
     <div class="list">
       <div class="listTitle">{{ title }}</div>
       <div class="listDesc">简介：{{ desc }}</div>
-      <el-row class="listContent" v-for="(item, index) in list" :key="item.id" :gutter="20" v-if="index % 3 === 0">
-        <el-col :span="8" v-for="i in [0, 1, 2]" :key="i" v-if="list[i + index]">
+      <div class="listContainer" v-for="(item, index) in list" :key="item.id" :gutter="20" v-if="index % 3 === 0">
+        <div v-for="i in [0, 1, 2]" :key="i" v-if="list[i + index]">
           <div class="listImg" @click="navigation(list[i + index].id)" :style="list[i + index].thumbUrl ? `background: url(${list[i + index].thumbUrl}) center no-repeat; background-size: cover;` : ''">
           </div>
           <div class="listTips l ovh">
             <div class="r">{{ list[i + index].date }}</div>
           </div>
-          <el-row class="listTools" :gutter="0">
-            <el-col :span="24">
-              <div class="listInfo">
-                <div class="name overwrap">{{ list[i + index].name }}</div>
-                <div class="introduction" :title="list[i + index].introduction">{{ list[i + index].introduction }}</div>
+          <div class="listTools">
+            <div class="listInfo">
+              <div class="name overwrap">{{ list[i + index].name }}</div>
+              <div class="introduction" :title="list[i + index].introduction">{{ list[i + index].introduction }}</div>
+              <div class="dateContainer">
                 <div class="date">
                   <img src="../../../assets/date.png">
-                  <span style="width: 75%;">观看至{{ list[i + index].endDate }}%</span>
-                  <span>{{ list[i + index].completedDuration ? '已观看' : '未观看' }}</span>
+                  <span>观看至{{ list[i + index].endDate }}%</span>
                 </div>
+                <span>{{ list[i + index].completedDuration ? '已观看' : '未观看' }}</span>
               </div>
-            </el-col>
-          </el-row>
-        </el-col>
-      </el-row>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <el-pagination background layout="prev, pager, next" :total="total" @current-change="handleCurrentChange"></el-pagination>
   </div>
@@ -207,6 +207,16 @@ export default {
 </script>
 
 <style scoped>
+  #body .container {
+    margin: 0;
+  }
+
+  .container {
+    background-color: #fff;
+    height: auto;
+    padding: 20px;
+  }
+
   .taskHeader {
     display: flex;
     justify-content: space-between;
@@ -294,9 +304,15 @@ export default {
     padding-left: 15px;
   }
 
-  .listContent {
+  .listContainer {
     padding-top: 20px;
     padding-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .listContainer > div {
+    width: 30%;
   }
 
   .listTips {
@@ -315,18 +331,17 @@ export default {
   }
 
   .listTools {
-    width: 100%;
     display: flex;
     position: relative;
     top: -34px;
-    padding: 15px;
+    padding: 10px;
     border-left: 1px #dee4e6 solid;
     border-right: 1px #dee4e6 solid;
     border-bottom: 1px #dee4e6 solid;
   }
 
-  .listTools .el-col-10 {
-    margin-top: 10px;
+  .listInfo {
+    width: 100%;
   }
 
   .listInfo .name {
@@ -346,6 +361,11 @@ export default {
     height: 46px;
   }
 
+  .dateContainer {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .listInfo .date {
     display: flex;
     align-items: center;
@@ -357,7 +377,7 @@ export default {
 
   .listImg {
     width: 100%;
-    height: 180px;
+    padding-bottom: 56.25%;
     overflow: hidden;
     vertical-align: middle;
     text-align: center;

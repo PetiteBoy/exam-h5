@@ -13,6 +13,20 @@ export default {
     logout () {
       removeSessionStorage('authKey')
       this.$router.push('/login')
+    },
+    secondToDate (param) {
+      const options = Number(param)
+      const hour = parseInt(options / 3600) >= 10 ? parseInt(options / 3600) : `0${parseInt(options / 3600)}`
+      const minute = parseInt(options % 3600 / 60) >= 10 ? parseInt(options % 3600 / 60) : `0${parseInt(options % 3600 / 60)}`
+      const second = parseInt(options % 60) >= 10 ? parseInt(options % 60) : `0${parseInt(options % 60)}`
+      const date = `${hour}:${minute}:${second}`
+
+      return {
+        date: date,
+        hour: hour,
+        minute: minute,
+        second: second
+      }
     }
   }
 }
@@ -20,7 +34,8 @@ export default {
 
 <style>
   html, body {
-    background-color: #f8f8f8;
+    background-color: #f2f7f8;
+    height: 100%;
   }
 
   #app {
@@ -29,6 +44,7 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #54667a;
+    height: 100%;
   }
 
   * {
@@ -52,14 +68,5 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-
-  #body {
-    width: 1000px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 15px;
-    padding-top: 60px;
-    padding-left: 200px;
   }
 </style>

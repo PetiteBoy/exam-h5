@@ -1,11 +1,8 @@
 <template>
   <div class="container">
-    <div class="noticeBack">
-      <i class="el-icon-arrow-left" @click="navBack"></i>
-    </div>
     <div class="notice">
       <div>{{ notice.title ? notice.title : '公告' }}</div>
-      <textarea disabled style="resize: none; width: 100%; min-height: 480px" v-model="notice.content"></textarea>
+      <textarea disabled style="resize: none; width: 100%; height: calc(100% - 60px)" v-model="notice.content"></textarea>
     </div>
     <div class="noticeTips" v-if="!status">提示：您还未完成视频学习要求，完成后才可参加考题测试</div>
     <el-button :type="status ? 'primary' : 'info'" @click="navigation()">开始测试</el-button>
@@ -79,22 +76,10 @@ export default {
 </script>
 
 <style scoped>
-  .noticeBack {
-    text-align: left;
-  }
-
-  .noticeBack i {
-    font-size: 20px;
-    cursor: pointer;
-    padding-right: 15px;
-    padding-bottom: 15px;
-  }
-
   .notice {
-    width: 880px;
-    min-height: 520px;
-    padding: 20px 60px;
+    padding: 20px 40px;
     background-color: #fff;
+    height: calc(100% - 160px);
   }
 
   .notice div {

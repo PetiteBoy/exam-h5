@@ -7,7 +7,7 @@
     <div class="info">
       <div class="video">
         <div class="videoTitle">{{ mediaInfo.name }}</div>
-        <video id="videoInfo" @click="mediaTools('tools')" :src="mediaInfo.url" width="100%" height="390"></video>
+        <video id="videoInfo" @click="mediaTools('tools')" :src="mediaInfo.url" width="100%"></video>
         <div class="videoTools ovh">
           <img class="l" src="../../../assets/play.png" @click="mediaTools('tools')">
           <div class="videoDate l">{{ completeDuration }} / {{ duration }}</div>
@@ -19,7 +19,7 @@
             </div>
           </div>
         </div>
-        <img class="player" src="../../../assets/player.png">
+        <img class="player" v-if="showPlayer" src="../../../assets/player.png" @click="mediaTools('tools')">
       </div>
       <div class="content">
         <div>视频标题：{{ mediaInfo.name }}</div>
@@ -46,7 +46,8 @@ export default {
       completeDuration: '',
       duration: '',
       userName: '',
-      stream: ''
+      stream: '',
+      showPlayer: true
     }
   },
   mounted () {
@@ -119,8 +120,10 @@ export default {
       if (res === 'tools') {
         if (this.media) {
           Media.play()
+          this.showPlayer = false
         } else {
           Media.pause()
+          this.showPlayer = true
         }
         this.media = !this.media
       } else if (res === 'full') {
@@ -158,23 +161,16 @@ export default {
 </script>
 
 <style scoped>
-  .el-slider__bar {
-    background-color: #54667A;
-  }
-
-  .el-slider__button-wrapper {
-    display: none;
-  }
-
   .title {
     font-size: 18px;
     font-weight: bold;
-    line-height: 100px;
+    line-height: 60px;
   }
 
   .info {
     display: flex;
     justify-content: space-between;
+    flex-flow: row;
   }
 
   .info > div {
@@ -182,8 +178,8 @@ export default {
   }
 
   .video {
-    width: 700px;
-    height: 500px;
+    width: 100%;
+    position: relative;
   }
 
   .video img {
@@ -205,6 +201,7 @@ export default {
   .content {
     width: 250px;
     padding: 24px 15px;
+    margin-left: 20px;
   }
 
   #video {
@@ -219,9 +216,12 @@ export default {
     width: 115px;
     height: 115px;
     cursor: pointer;
-    position: relative;
-    top: -300px;
-    left: 288px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
   }
 
   .container{

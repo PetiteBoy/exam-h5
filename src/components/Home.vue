@@ -1,8 +1,11 @@
 <template>
   <div class="container">
     <Header class="head"></Header>
-    <div id="body">
-      <router-view></router-view>
+    <div class="containerBody">
+      <Aside class="aside"></Aside>
+      <div id="body">
+        <router-view></router-view>
+      </div>
     </div>
   </div>
 </template>
@@ -11,11 +14,13 @@
 import { removeSessionStorage } from '../utils/base.js'
 import service from '../service/service.js'
 import Header from './Part/Header.vue'
+import Aside from './Part/Aside.vue'
 
 export default {
   name: 'Home',
   components: {
-    Header
+    Header,
+    Aside
   },
   data () {
     return {
@@ -72,5 +77,29 @@ export default {
 </script>
 
 <style scoped>
+  .aside {
+    width: 200px;
+    background-color: #f2f7f8;
+  }
 
+  .containerBody {
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row;
+    height: calc(100% - 60px);
+  }
+
+  #body {
+    width: 100%;
+    overflow-y: scroll;
+  }
+
+  .container {
+    height: 100%;
+  }
+
+  #body .container {
+    height: calc(100% - 40px);
+    margin: 20px;
+  }
 </style>

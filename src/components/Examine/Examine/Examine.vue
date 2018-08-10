@@ -13,12 +13,21 @@
         <img v-if="img" class="optionsImg" :src="img">
       </div>
       <div v-if="finish">
-        <div :class="userAnswers === answer ? 'success' : 'danger'">您的答案：{{ userAnswers }}</div>
-        <div class="success"> 正确答案：{{ answer }}</div>
+        <div :class="userAnswers === answer ? 'primary' : 'danger'">您的答案：{{ userAnswers }}</div>
+        <div class="primary"> 正确答案：{{ answer }}</div>
         <div class="answerContentTitle">题目详解:</div>
         <div class="answerContent">{{ explains }}</div>
       </div>
       <el-button :type="finish ? 'primary' : 'info'" @click="total > questionNum ? nextQuestion() : record()">{{ total > questionNum ? '下一题' : '完成' }}</el-button>
+    </div>
+    <div class="dialog">
+      <div class="dialogContainer">
+        <div class="dialogTitle">考试结果</div>
+        <div>时长： {{ costTime }}</div>
+        <div>答对： {{ answerRight }}</div>
+        <div>答错： {{ answerWrong }}</div>
+        <el-button type="primary" @click="navback">交卷</el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -43,6 +52,7 @@ export default {
       answer: 1,
       explains: '',
       userAnswers: '',
+      costTime: '00:00:00',
       answerRight: 0,
       answerWrong: 0,
       countDownInterval: '',
@@ -60,6 +70,9 @@ export default {
     this.countDownInterval = setInterval(function () {
       that.timestamp--
       that.time = that.$parent.secondToDate(that.timestamp).date
+
+      let costTime = this.timestampOld - this.timestamp
+      this.costTime = this.$parent.secondToDate(costTime).date
 
       if (!that.timestamp) {
         that.record()
@@ -119,7 +132,6 @@ export default {
       })
     },
     record () {
-      let costTime = this.timestampOld - this.timestamp
       clearInterval(this.countDownInterval)
 
       service.requestUrl({
@@ -127,11 +139,11 @@ export default {
         data: {
           correctNum: this.answerRight,
           wrongNum: this.answerWrong,
-          costTime: costTime
+          costTime: this.timestampOld - this.timestamp
         }
       }).then(res => {
-        costTime = this.$parent.secondToDate(costTime).date
-        this.$router.push(`Result?correctNum=${this.answerRight}&wrongNum=${this.answerWrong}&costTime=${costTime}`)
+        // this.costTime = this.$parent.secondToDate(costTime).date
+        // this.$router.push(`Result?correctNum=${this.answerRight}&wrongNum=${this.answerWrong}&costTime=${costTime}`)
       }).catch(err => {
         this.$message({
           showClose: true,
@@ -184,6 +196,9 @@ export default {
       } else {
         setTimeout(this.bindCapture, 200)
       }
+    },
+    navback () {
+      this.$parent.logout()
     }
   },
   beforeDestroy () {
@@ -194,7 +209,7 @@ export default {
 
 <style scoped>
   #video {
-    width: 200px;
+    width: 250px;
     height: 150px;
     margin-bottom: 40px;
     border: 1px #ddd solid;
@@ -205,11 +220,20 @@ export default {
   }
 
   .container {
-    text-align: left
+    text-align: left;
+    height: calc(100% - 1px);
+    border-top: 1px #f2f7f8 solid;
   }
 
   .container img {
     width: 100%;
+  }
+
+  #body {
+    background-color: #fff;
+    margin: 100px;
+    padding: 20px;
+    height: calc(100% - 240px);
   }
 
   .title {
@@ -255,6 +279,10 @@ export default {
     margin-top: 20px;
   }
 
+  .primary {
+    color: #409EFF;
+  }
+
   .success {
     color: #67C23A;
   }
@@ -265,5 +293,45 @@ export default {
 
   .el-radio {
     margin-left: 30px;
+  }
+
+  .dialog {
+    background: rgba(0, 0, 0, .3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+  }
+
+  .dialogContainer {
+    width: 350px;
+    height: 300px;
+    background-color: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .dialogContainer .dialogTitle {
+    font-size: 20px;
+    text-align: center;
+    line-height: 80px;
+  }
+
+  .dialogContainer div {
+    padding: 0 100px;
+    text-align: left;
+    line-height: 40px;
+  }
+
+  .dialogContainer .el-button {
+    margin-top: 20px;
   }
 </style>
