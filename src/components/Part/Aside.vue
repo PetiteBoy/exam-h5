@@ -1,6 +1,6 @@
 <template>
   <div class="aside">
-    <el-menu class="el-menu-vertical-demo" :default-active="defaultActive" background-color="#f2f7f8" text-color="#000" active-text-color="#11a0f8" unique-opened="true">
+    <el-menu class="el-menu-vertical-demo" :default-active="defaultActive" background-color="#f2f7f8" text-color="#000" active-text-color="#11a0f8" unique-opened>
       <el-submenu index="0">
         <template slot="title">
           <i class="el-icon-location"></i>
