@@ -55,6 +55,7 @@ export default {
     padding-right: 10px;
     box-sizing: border-box;
     background-color: #fff;
+    border-bottom: solid 1px #e6e6e6;
   }
 
   .header span:first-child {

@@ -62,7 +62,7 @@ export default {
               return
             }
             setSessionStorage('authKey', res.data.data.authKey)
-            this.$router.push('/home')
+            this.$router.push('/Home')
           })
           .catch(err => {
             this.$message({

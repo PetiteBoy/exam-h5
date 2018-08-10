@@ -15,7 +15,7 @@
           <div class="r ovh">
             <img class="l" src="../../../assets/voice.png">
             <div class="block r">
-              <el-slider v-model="mediaVolume"  @change="mediaTools('voice')"></el-slider>
+              <el-slider v-model="mediaVolume" @change="mediaTools('voice')"></el-slider>
             </div>
           </div>
         </div>
@@ -192,6 +192,10 @@ export default {
   .videoTitle {
     line-height: 60px;
     text-indent: 2em;
+  }
+
+  #videoInfo {
+    cursor: pointer;
   }
 
   .videoTools {

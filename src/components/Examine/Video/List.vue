@@ -1,10 +1,10 @@
 <template>
-  <div class="container">
+  <div class="container" style="height: auto;">
     <div class="task">
       <div class="taskHeader">
         <div>
           <div>当前位置</div>
-          <div>{{ title }}</div>
+          <div>课程学习 > {{ title }}</div>
         </div>
         <div>
           <div>今日时长：{{ completeDuration }}/{{ learnDuration }}</div>
@@ -14,8 +14,8 @@
         <el-row :gutter="20">
           <el-col :span="4">学习任务：</el-col>
         </el-row>
-        <el-row :gutter="20" v-for="item in taskList" :key="item.categoryId">
-          <el-col :span="1"><i :class="item.status === 1 ? 'el-icon-success' : item.status === 0 ? 'el-icon-error' : 'el-icon-info'"></i></el-col>
+        <el-row :gutter="0" v-for="item in taskList" :key="item.categoryId">
+          <el-col :span="1" style="text-align: center"><i :class="item.status === 1 ? 'el-icon-success' : item.status === 0 ? 'el-icon-error' : 'el-icon-info'"></i></el-col>
           <el-col :span="12">{{ item.categoryName }}（至少完整学习<span class="primary"> {{ item.learnNum }} </span>个视频）</el-col>
         </el-row>
         <el-row :gutter="20" style="margin-top: 10px;">
@@ -213,7 +213,6 @@ export default {
 
   .container {
     background-color: #fff;
-    height: auto;
     padding: 20px;
   }
 

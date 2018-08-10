@@ -80,6 +80,7 @@ export default {
   .aside {
     width: 200px;
     background-color: #f2f7f8;
+    border-right: 1px #e6e6e6 solid;
   }
 
   .containerBody {

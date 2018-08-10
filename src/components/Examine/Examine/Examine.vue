@@ -20,7 +20,7 @@
       </div>
       <el-button :type="finish ? 'primary' : 'info'" @click="total > questionNum ? nextQuestion() : record()">{{ total > questionNum ? '下一题' : '完成' }}</el-button>
     </div>
-    <div class="dialog">
+    <div class="dialog" v-if="showDialog">
       <div class="dialogContainer">
         <div class="dialogTitle">考试结果</div>
         <div>时长： {{ costTime }}</div>
@@ -56,7 +56,8 @@ export default {
       answerRight: 0,
       answerWrong: 0,
       countDownInterval: '',
-      stream: ''
+      stream: '',
+      showDialog: false
     }
   },
   mounted () {
@@ -70,10 +71,8 @@ export default {
     this.countDownInterval = setInterval(function () {
       that.timestamp--
       that.time = that.$parent.secondToDate(that.timestamp).date
-
-      let costTime = this.timestampOld - this.timestamp
-      this.costTime = this.$parent.secondToDate(costTime).date
-
+      let costTime = that.timestampOld - that.timestamp
+      that.costTime = that.$parent.secondToDate(costTime).date
       if (!that.timestamp) {
         that.record()
       }
@@ -142,6 +141,7 @@ export default {
           costTime: this.timestampOld - this.timestamp
         }
       }).then(res => {
+        this.showDialog = true
         // this.costTime = this.$parent.secondToDate(costTime).date
         // this.$router.push(`Result?correctNum=${this.answerRight}&wrongNum=${this.answerWrong}&costTime=${costTime}`)
       }).catch(err => {
@@ -231,9 +231,9 @@ export default {
 
   #body {
     background-color: #fff;
-    margin: 100px;
-    padding: 20px;
-    height: calc(100% - 240px);
+    margin: 40px;
+    padding: 20px 40px;
+    height: calc(100% - 120px);
   }
 
   .title {
