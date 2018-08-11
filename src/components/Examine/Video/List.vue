@@ -11,20 +11,22 @@
         </div>
       </div>
       <div class="taskList">
-        <el-row :gutter="20">
-          <el-col :span="4">学习任务：</el-col>
-        </el-row>
-        <el-row :gutter="0" v-for="item in taskList" :key="item.categoryId">
-          <el-col :span="1" style="text-align: center"><i :class="item.status === 1 ? 'el-icon-success' : item.status === 0 ? 'el-icon-error' : 'el-icon-info'"></i></el-col>
-          <el-col :span="12">{{ item.categoryName }}（至少完整学习<span class="primary"> {{ item.learnNum }} </span>个视频）</el-col>
-        </el-row>
-        <el-row :gutter="20" style="margin-top: 10px;">
-          <el-col :span="4">课程需知：</el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :offset="1" :span="20">1.请务必保证学习时长大于3小时，否则无法生成相应学习记录</el-col>
-          <el-col :offset="1" :span="20">2.必须完成每个分类的视频学习任务后才可以进行习题测试</el-col>
-        </el-row>
+        <el-collapse @change="handleChange">
+          <el-collapse-item name="1">
+            <div class="el-collapse-item-title" slot="title">{{ showCollapseTitle }}</div>
+            <el-row :gutter="0" v-for="item in taskList" :key="item.categoryId">
+              <el-col :span="1" style="text-align: center"><i :class="item.status === 1 ? 'el-icon-success' : item.status === 0 ? 'el-icon-error' : 'el-icon-info'"></i></el-col>
+              <el-col :span="12">{{ item.categoryName }}（至少完整学习<span class="primary"> {{ item.learnNum }} </span>个视频）</el-col>
+            </el-row>
+            <el-row :gutter="20" style="margin-top: 10px;">
+              <el-col :span="4">课程需知：</el-col>
+            </el-row>
+            <el-row :gutter="20">
+              <el-col :offset="1" :span="20">1.请务必保证学习时长大于3小时，否则无法生成相应学习记录</el-col>
+              <el-col :offset="1" :span="20">2.必须完成每个分类的视频学习任务后才可以进行习题测试</el-col>
+            </el-row>
+          </el-collapse-item>
+        </el-collapse>
       </div>
     </div>
     <div class="list">
@@ -79,7 +81,10 @@ export default {
       title: '',
       desc: '',
 
-      total: 0
+      total: 0,
+      showCollapseTitle: '学习任务：',
+      allCollapseTitle: '',
+      collapseTitle: '学习任务：'
     }
   },
   watch: {
@@ -112,6 +117,10 @@ export default {
     }).then(res => {
       const that = this
       res.map(function (v) {
+        if (v.categoryId === Number(that.categoryId)) {
+          that.showCollapseTitle = `学习任务：${v.categoryName}（至少完整学习 ${v.learnNum} 个视频）`
+          that.allCollapseTitle = `学习任务：${v.categoryName}（至少完整学习 ${v.learnNum} 个视频）`
+        }
         if (!v.learnNum) {
           v.status = -1
           return
@@ -138,6 +147,16 @@ export default {
     init () {
       this.title = getSessionStorage(`asideTitle${this.categoryId}`)
       this.desc = getSessionStorage(`asideDesc${this.categoryId}`)
+      const that = this
+
+      if (this.allCollapseTitle) {
+        this.taskList.map(function (v) {
+          if (v.categoryId === Number(that.categoryId)) {
+            that.showCollapseTitle = `学习任务：${v.categoryName}（至少完整学习 ${v.learnNum} 个视频）`
+            that.allCollapseTitle = `学习任务：${v.categoryName}（至少完整学习 ${v.learnNum} 个视频）`
+          }
+        })
+      }
 
       service.requestUrl({
         url: '/video/page',
@@ -201,6 +220,13 @@ export default {
           type: 'warning'
         })
       })
+    },
+    handleChange (res) {
+      if (res[0]) {
+        this.showCollapseTitle = this.collapseTitle
+      } else {
+        this.showCollapseTitle = this.allCollapseTitle
+      }
     }
   }
 }
@@ -240,10 +266,10 @@ export default {
 
   .taskList {
     text-align: left;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    /*margin-top: 20px;*/
+    /*margin-bottom: 20px;*/
     line-height: 30px;
-    border: 1px #e9f1f3 solid;
+    /*border: 1px #e9f1f3 solid;*/
     padding: 15px;
   }
 
@@ -260,11 +286,11 @@ export default {
   }
 
   .taskList .el-col-12 {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .taskList span {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   .taskList .primary {
@@ -314,25 +340,55 @@ export default {
     width: 30%;
   }
 
+  .listContainer > div:hover .listTools {
+    box-shadow: 2px 2px 5px #ddd, -2px 2px 5px #ddd;
+  }
+
+  .listContainer > div:hover .listImg {
+    animation: mymove .5s 1 forwards;
+    -webkit-animation: mymove .5s 1 forwards;
+  }
+
+  @keyframes mymove
+  {
+    from {
+      background-size: 100%;
+    }
+    to {
+      background-size: 110%;
+    }
+  }
+
+  @-webkit-keyframes mymove /*Safari and Chrome*/
+  {
+    from {
+      background-size: 100%;
+    }
+    to {
+      background-size: 110%;
+    }
+  }
+
   .listTips {
     position: relative;
-    top: -34px;
+    top: -25px;
     color: #fff;
     text-align: center;
     width: 100%;
     line-height: 20px;
-    font-size: 12px;
+    font-size: 14px;
+    font-weight: bold;
   }
 
   .listTips div {
-    padding-bottom: 15px;
+    padding-bottom: 5px;
     padding-right: 20px;
   }
 
   .listTools {
     display: flex;
     position: relative;
-    top: -34px;
+    top: -25px;
     padding: 10px;
     border-left: 1px #dee4e6 solid;
     border-right: 1px #dee4e6 solid;
@@ -341,11 +397,13 @@ export default {
 
   .listInfo {
     width: 100%;
+    color: #999;
   }
 
   .listInfo .name {
     font-size: 18px;
     font-weight: bold;
+    color: #54667A;
   }
 
   .listInfo .introduction {
@@ -386,5 +444,23 @@ export default {
 
   .listImg:hover {
     cursor: pointer;
+  }
+
+  .el-collapse {
+    border-top: 0;
+    border-bottom: 1px #e9f1f3 solid;
+  }
+
+  .el-row {
+    line-height: 36px;
+    font-size: 14px!important;
+  }
+
+  .el-row i {
+    line-height: 38px;
+  }
+
+  .el-collapse-item-title {
+    font-size: 14px;
   }
 </style>

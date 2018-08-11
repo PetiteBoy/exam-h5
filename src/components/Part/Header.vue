@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <span class="l" @click="navigation">在线学习考试</span>
+    <span class="l">在线学习考试</span>
     <span>{{ userName }}</span>
     <span @click="logout()">注销</span>
   </div>
@@ -21,9 +21,6 @@ export default {
     this.getUserInfo()
   },
   methods: {
-    navigation () {
-      this.$router.push('/home')
-    },
     getUserInfo () {
       service.requestUrl({
         url: '/user/info'
@@ -65,6 +62,7 @@ export default {
     margin: 0;
     border-right: solid 1px #e6e6e6;
     text-align: center;
+    cursor: default;
   }
 
   .header span {

@@ -84,7 +84,14 @@ export default {
 <style scoped>
   .el-submenu .el-menu-item {
     border-right: 1px #e6e6e6 solid;
+    font-size: 12px;
+    padding-right: 20px;
   }
+
+  .el-submenu .el-menu-item:hover {
+    /*background-color: red!important;*/
+  }
+
   .el-menu-vertical-demo {
     width: 199px;
     text-align: left;
