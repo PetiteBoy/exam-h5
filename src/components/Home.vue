@@ -93,6 +93,7 @@ export default {
   #body {
     width: 100%;
     overflow-y: scroll;
+    background-color: #F8F8F8;
   }
 
   .container {

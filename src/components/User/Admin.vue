@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <div class="title">个人信息</div>
+    <div class="crumbs">
+      <div>当前位置</div>
+      <div>我的信息 > 个人信息</div>
+    </div>
     <el-row :gutter="20" v-for="(item, index) in userInfo" :key="index">
       <el-col :span="6">{{ item.k }}</el-col>
       <el-col :span="18">{{ item.v }}</el-col>
@@ -77,8 +80,26 @@ export default {
 </script>
 
 <style scoped>
+  .container .crumbs {
+    border-bottom: 0;
+    margin-bottom: 20px;
+  }
+
+  .crumbs div:first-child {
+    color: #11A0F8;
+    font-size: 18px;
+  }
+
+  .crumbs div:last-child {
+    color: #54667A;
+    font-size: 14px;
+  }
+
   .container {
     text-align: left;
+    background-color: #fff;
+    margin: 0!important;
+    padding: 20px;
   }
 
   .container .title {
@@ -87,7 +108,8 @@ export default {
   }
 
   .container > div {
+    font-size: 18px;
     padding: 10px 0;
-    border-bottom: 1px #ddd solid;
+    border-bottom: 1px #E9F1F3 solid;
   }
 </style>
