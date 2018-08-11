@@ -29,6 +29,8 @@
           <span slot="title">我的信息</span>
         </template>
         <el-menu-item class="overwrap" index="/User/Admin" @click="navigation('/User/Admin')">个人信息</el-menu-item>
+        <el-menu-item class="overwrap" index="/User/EducationRecord" @click="navigation('/User/EducationRecord')">教育记录</el-menu-item>
+        <el-menu-item class="overwrap" index="/User/ExamRecord" @click="navigation('/User/ExamRecord')">考试记录</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>
