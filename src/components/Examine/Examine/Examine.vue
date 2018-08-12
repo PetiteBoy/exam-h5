@@ -177,7 +177,6 @@ export default {
         video.play()
       }, function () {
         alert('摄像头未启动，请联系管理员换机')
-        window.history.back()
       })
     },
     bindCapture () {

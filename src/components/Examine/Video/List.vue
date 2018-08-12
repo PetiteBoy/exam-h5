@@ -203,7 +203,7 @@ export default {
         data: {
           categoryId: this.categoryId,
           pageNum: res,
-          pageSize: 3
+          pageSize: 12
         }
       }).then(res => {
         for (let item of res.list) {
