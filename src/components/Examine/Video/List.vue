@@ -13,7 +13,7 @@
       <div class="taskList">
         <el-collapse @change="handleChange">
           <el-collapse-item name="1">
-            <div class="el-collapse-item-title" slot="title">{{ showCollapseTitle }}</div>
+            <div class="el-collapse-item-title" slot="title">{{ showCollapseTitle }}<i :class="showCollapseTitle.length === 5 ? 'el-icon-caret-top' : 'el-icon-caret-bottom'" title="可展开" style="color: #fff; font-size: 20px; font-weight: bold; background-color: #409EFF; border-radius: 50%"></i></div>
             <el-row :gutter="0" v-for="item in taskList" :key="item.categoryId">
               <el-col :span="1" style="text-align: center"><i :class="item.status === 1 ? 'el-icon-success' : item.status === 0 ? 'el-icon-error' : 'el-icon-info'"></i></el-col>
               <el-col :span="12">{{ item.categoryName }}（至少完整学习<span class="primary"> {{ item.learnNum }} </span>个视频）</el-col>
@@ -82,7 +82,7 @@ export default {
       desc: '',
 
       total: 0,
-      showCollapseTitle: '学习任务（可展开）：',
+      showCollapseTitle: '学习任务：',
       allCollapseTitle: '',
       collapseTitle: '学习任务：'
     }
@@ -118,8 +118,8 @@ export default {
       const that = this
       res.map(function (v) {
         if (v.categoryId === Number(that.categoryId)) {
-          that.showCollapseTitle = `学习任务（可展开）：${v.categoryName}（至少完整学习 ${v.learnNum} 个视频）`
-          that.allCollapseTitle = `学习任务（可展开）：${v.categoryName}（至少完整学习 ${v.learnNum} 个视频）`
+          that.showCollapseTitle = `学习任务：${v.categoryName}（至少完整学习 ${v.learnNum} 个视频）`
+          that.allCollapseTitle = `学习任务：${v.categoryName}（至少完整学习 ${v.learnNum} 个视频）`
         }
         if (!v.learnNum) {
           v.status = -1
@@ -152,8 +152,8 @@ export default {
       if (this.allCollapseTitle) {
         this.taskList.map(function (v) {
           if (v.categoryId === Number(that.categoryId)) {
-            that.showCollapseTitle = `学习任务（可展开）：${v.categoryName}（至少完整学习 ${v.learnNum} 个视频）`
-            that.allCollapseTitle = `学习任务（可展开）：${v.categoryName}（至少完整学习 ${v.learnNum} 个视频）`
+            that.showCollapseTitle = `学习任务：${v.categoryName}（至少完整学习 ${v.learnNum} 个视频）`
+            that.allCollapseTitle = `学习任务：${v.categoryName}（至少完整学习 ${v.learnNum} 个视频）`
           }
         })
       }
