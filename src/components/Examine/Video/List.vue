@@ -33,8 +33,8 @@
       <div class="listTitle">{{ title }}</div>
       <div class="listDesc">简介：{{ desc }}</div>
       <div class="listContainer" v-for="(item, index) in list" :key="item.id" :gutter="20" v-if="index % 3 === 0">
-        <div v-for="i in [0, 1, 2]" :key="i" v-if="list[i + index]">
-          <div class="listImg" @click="navigation(list[i + index].id)" :style="list[i + index].thumbUrl ? `background: url(${list[i + index].thumbUrl}) center no-repeat; background-size: cover;` : ''">
+        <div v-for="i in [0, 1, 2]" :key="i" v-if="list[i + index]"  @click="navigation(list[i + index].id)">
+          <div class="listImg" :style="list[i + index].thumbUrl ? `background: url(${list[i + index].thumbUrl}) center no-repeat; background-size: cover;` : ''">
           </div>
           <div class="listTips l ovh">
             <div class="r">{{ list[i + index].date }}</div>
@@ -334,6 +334,7 @@ export default {
     padding-bottom: 20px;
     display: flex;
     justify-content: space-between;
+    cursor: pointer;
   }
 
   .listContainer > div {
@@ -341,15 +342,36 @@ export default {
   }
 
   .listContainer > div:hover .listTools {
-    box-shadow: 2px 2px 5px #ddd, -2px 2px 5px #ddd;
+    animation: listTools .5s 1 forwards;
+    -webkit-animation: listTools .5s 1 forwards;
   }
 
   .listContainer > div:hover .listImg {
-    animation: mymove .5s 1 forwards;
-    -webkit-animation: mymove .5s 1 forwards;
+    animation: listImg .5s 1 forwards;
+    -webkit-animation: listImg .5s 1 forwards;
   }
 
-  @keyframes mymove
+  @keyframes listTools
+  {
+    from {
+      box-shadow: 0;
+    }
+    to {
+      box-shadow: 2px 2px 5px #ddd, -2px 2px 5px #ddd;
+    }
+  }
+
+  @-webkit-keyframes listTools /*Safari and Chrome*/
+  {
+    from {
+      box-shadow: 0;
+    }
+    to {
+      box-shadow: 2px 2px 5px #ddd, -2px 2px 5px #ddd;
+    }
+  }
+
+  @keyframes listImg
   {
     from {
       background-size: 100%;
@@ -359,7 +381,7 @@ export default {
     }
   }
 
-  @-webkit-keyframes mymove /*Safari and Chrome*/
+  @-webkit-keyframes listImg /*Safari and Chrome*/
   {
     from {
       background-size: 100%;

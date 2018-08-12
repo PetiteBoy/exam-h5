@@ -78,7 +78,7 @@ export default {
 
 <style scoped>
   .aside {
-    width: 200px;
+    width: 250px;
     background-color: #f2f7f8;
     border-right: 1px #e6e6e6 solid;
   }

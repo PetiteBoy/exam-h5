@@ -58,7 +58,7 @@ export default {
   .header span:first-child {
     background-color: #f2f7f8;
     display: inline-block;
-    width: 199px;
+    width: 249px;
     margin: 0;
     border-right: solid 1px #e6e6e6;
     text-align: center;

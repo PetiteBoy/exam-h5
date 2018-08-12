@@ -7,6 +7,7 @@ import Home from '@/components/Home'
 import UserAdmin from '@/components/User/Admin'
 import UserEducationRecord from '@/components/User/EducationRecord'
 import UserExamRecord from '@/components/User/ExamRecord'
+import UserPrint from '@/components/User/Print'
 
 import ExamineIndex from '@/components/Examine/Index'
 import ExamineVideoNotice from '@/components/Examine/Video/Notice'
@@ -41,6 +42,9 @@ export default new Router({
     }, {
       path: '/User/ExamRecord',
       component: UserExamRecord
+    }, {
+      path: '/User/Print',
+      component: UserPrint
     }, {
       path: '/Examine/Video/Notice',
       component: ExamineVideoNotice

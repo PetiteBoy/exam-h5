@@ -9,7 +9,8 @@
         <div class="videoTitle">{{ mediaInfo.name }}</div>
         <video id="videoInfo" @click="mediaTools('tools')" :src="mediaInfo.url" width="100%"></video>
         <div class="videoTools ovh">
-          <img class="l" src="../../../assets/play.png" @click="mediaTools('tools')">
+          <img class="l" v-if="showPlayer" src="../../../assets/play.png" @click="mediaTools('tools')">
+          <img class="l" v-else src="../../../assets/stop.png" @click="mediaTools('tools')">
           <div class="videoDate l">{{ completeDuration }} / {{ duration }}</div>
           <img class="r" src="../../../assets/fullScreen.png" @click="mediaTools('full')">
           <div class="r ovh">
@@ -154,7 +155,9 @@ export default {
     }
   },
   beforeDestroy () {
-    this.stream.getTracks()[0].stop()
+    if (this.stream) {
+      this.stream.getTracks()[0].stop()
+    }
     clearInterval(this.recordInterval)
   }
 }
