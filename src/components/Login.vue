@@ -115,16 +115,11 @@ export default {
   }
 
   .wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
+    position: fixed;
+    right: 12%;
+    top: 20%;
     width: 400px;
-    height: 300px;
-    padding-left: 950px;
-    padding-bottom: 250px;
+    height: 350px;
   }
 
   @media all and (-webkit-min-device-pixel-ratio: 1.5),
