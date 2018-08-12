@@ -213,7 +213,7 @@ export default {
       }
     },
     navback () {
-      this.$parent.logout()
+      this.$router.push('/User/EducationRecord')
     }
   },
   beforeDestroy () {

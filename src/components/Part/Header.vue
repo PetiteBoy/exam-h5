@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <span class="l">在线学习考试</span>
+    <span class="l">机动车驾驶人教育管理平台</span>
     <span>{{ userName }}</span>
     <span @click="logout()">注销</span>
   </div>

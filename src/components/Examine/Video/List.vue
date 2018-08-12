@@ -34,8 +34,7 @@
       <div class="listDesc">简介：{{ desc }}</div>
       <div class="listContainer" v-for="(item, index) in list" :key="item.id" :gutter="20" v-if="index % 3 === 0">
         <div v-for="i in [0, 1, 2]" :key="i" v-if="list[i + index]"  @click="navigation(list[i + index].id)">
-          <div class="listImg" :style="list[i + index].thumbUrl ? `background: url(${list[i + index].thumbUrl}) center no-repeat; background-size: cover;` : ''">
-          </div>
+          <div class="listImg" :style="list[i + index].thumbUrl ? `background: url(${list[i + index].thumbUrl}) center no-repeat; background-size: cover;` : ''"></div>
           <div class="listTips l ovh">
             <div class="r">{{ list[i + index].date }}</div>
           </div>
@@ -53,6 +52,7 @@
             </div>
           </div>
         </div>
+        <div v-else></div>
       </div>
     </div>
     <el-pagination background layout="prev, pager, next" :total="total" @current-change="handleCurrentChange"></el-pagination>
@@ -82,7 +82,7 @@ export default {
       desc: '',
 
       total: 0,
-      showCollapseTitle: '学习任务：',
+      showCollapseTitle: '学习任务（可展开）：',
       allCollapseTitle: '',
       collapseTitle: '学习任务：'
     }
@@ -118,8 +118,8 @@ export default {
       const that = this
       res.map(function (v) {
         if (v.categoryId === Number(that.categoryId)) {
-          that.showCollapseTitle = `学习任务：${v.categoryName}（至少完整学习 ${v.learnNum} 个视频）`
-          that.allCollapseTitle = `学习任务：${v.categoryName}（至少完整学习 ${v.learnNum} 个视频）`
+          that.showCollapseTitle = `学习任务（可展开）：${v.categoryName}（至少完整学习 ${v.learnNum} 个视频）`
+          that.allCollapseTitle = `学习任务（可展开）：${v.categoryName}（至少完整学习 ${v.learnNum} 个视频）`
         }
         if (!v.learnNum) {
           v.status = -1
@@ -152,8 +152,8 @@ export default {
       if (this.allCollapseTitle) {
         this.taskList.map(function (v) {
           if (v.categoryId === Number(that.categoryId)) {
-            that.showCollapseTitle = `学习任务：${v.categoryName}（至少完整学习 ${v.learnNum} 个视频）`
-            that.allCollapseTitle = `学习任务：${v.categoryName}（至少完整学习 ${v.learnNum} 个视频）`
+            that.showCollapseTitle = `学习任务（可展开）：${v.categoryName}（至少完整学习 ${v.learnNum} 个视频）`
+            that.allCollapseTitle = `学习任务（可展开）：${v.categoryName}（至少完整学习 ${v.learnNum} 个视频）`
           }
         })
       }
@@ -245,7 +245,6 @@ export default {
   .taskHeader {
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px #ddd solid;
     padding-bottom: 20px;
     font-size: 18px;
   }

@@ -69,4 +69,8 @@ export default {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
+  textarea {
+    background-color: #fff;
+  }
 </style>
