@@ -72,7 +72,7 @@ export default {
       document.body.innerHTML = newstr
       window.print()
       document.body.innerHTML = oldstr
-      history.go(0)
+      window.location.reload()
     },
     formatDateTime (timeStamp) {
       var date = new Date()
@@ -100,7 +100,7 @@ export default {
 
   .printBorder {
     transform-origin: 50% 5%;
-    transform: scale(.4);
+    transform: scale(.75);
     max-width: 1000px;
     border: 1px #000 solid;
     margin: auto;

@@ -29,6 +29,7 @@
         <el-button type="primary" @click="navback">交卷</el-button>
       </div>
     </div>
+    <canvas id="canvas"></canvas>
   </div>
 </template>
 
@@ -129,6 +130,7 @@ export default {
           type: 'warning'
         })
       })
+      this.bindCapture()
     },
     record () {
       clearInterval(this.countDownInterval)
@@ -151,6 +153,7 @@ export default {
           type: 'warning'
         })
       })
+      this.bindCapture()
     },
     answers (res) {
       this.finish = true
@@ -172,8 +175,9 @@ export default {
         that.stream = stream
         video.src = window.URL.createObjectURL(stream)
         video.play()
-      }, function (error) {
-        console.log(error.name || error)
+      }, function () {
+        alert('摄像头未启动，请联系管理员换机')
+        window.history.back()
       })
     },
     bindCapture () {
@@ -184,15 +188,26 @@ export default {
         const canvas = document.getElementById('canvas')
         canvas.width = videoWidth
         canvas.height = videoHeight
-        document.getElementById('capture').addEventListener(
-          'click',
-          function () {
-            canvas.getContext('2d').drawImage(
-              video, 0, 0, videoWidth, videoHeight
-            )
-          },
-          false
+        canvas.getContext('2d').drawImage(
+          video, 0, 0, videoWidth, videoHeight
         )
+        let image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
+        let base64Photo = image.split(',')[1]
+        service.requestUrl({
+          url: '/user/grabgraph',
+          data: {
+            type: 'question',
+            base64Photo: base64Photo
+          }
+        }).then(res => {
+          console.log(res)
+        }).catch(err => {
+          this.$message({
+            showClose: true,
+            message: err,
+            type: 'warning'
+          })
+        })
       } else {
         setTimeout(this.bindCapture, 200)
       }
@@ -208,6 +223,10 @@ export default {
 </script>
 
 <style scoped>
+  #canvas {
+    display: none;
+  }
+
   #video {
     width: 250px;
     height: 150px;

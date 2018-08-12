@@ -28,6 +28,7 @@
         <video id="video"></video>
       </div>
     </div>
+    <canvas id="canvas"></canvas>
   </div>
 </template>
 
@@ -111,17 +112,25 @@ export default {
         that.stream = stream
         video.src = window.URL.createObjectURL(stream)
         video.play()
-      }, function (error) {
-        console.log(error.name || error)
+      }, function () {
+        alert('摄像头未启动，请联系管理员换机')
+        window.history.back()
       })
     },
     mediaTools (res) {
       const Media = document.getElementById('videoInfo')
 
+      this.$parent.record({
+        videoId: this.id,
+        videoTm: Media.currentTime,
+        isCompleted: false
+      })
+
       if (res === 'tools') {
         if (this.media) {
           Media.play()
           this.showPlayer = false
+          this.bindCapture()
         } else {
           Media.pause()
           this.showPlayer = true
@@ -134,12 +143,6 @@ export default {
       } else {
         window.history.back()
       }
-
-      this.$parent.record({
-        videoId: this.id,
-        videoTm: Media.currentTime,
-        isCompleted: false
-      })
     },
     record () {
       const that = this
@@ -152,6 +155,37 @@ export default {
           isCompleted: false
         })
       }, 600000)
+    },
+    bindCapture () {
+      const video = document.getElementById('video')
+      const videoWidth = video.videoWidth
+      const videoHeight = video.videoHeight
+      if (videoWidth && videoHeight) {
+        const canvas = document.getElementById('canvas')
+        canvas.width = videoWidth
+        canvas.height = videoHeight
+        canvas.getContext('2d').drawImage(
+          video, 0, 0, videoWidth, videoHeight
+        )
+        let image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
+        let base64Photo = image.split(',')[1]
+        service.requestUrl({
+          url: '/user/grabgraph',
+          data: {
+            type: 'video',
+            base64Photo: base64Photo
+          }
+        }).then(res => {
+        }).catch(err => {
+          this.$message({
+            showClose: true,
+            message: err,
+            type: 'warning'
+          })
+        })
+      } else {
+        setTimeout(this.bindCapture, 200)
+      }
     }
   },
   beforeDestroy () {
@@ -164,6 +198,10 @@ export default {
 </script>
 
 <style scoped>
+  #canvas {
+    display: none;
+  }
+
   .title {
     font-size: 18px;
     font-weight: bold;

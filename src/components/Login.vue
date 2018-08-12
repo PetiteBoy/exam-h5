@@ -3,7 +3,8 @@
     <div class="wrapper">
       <div class="login">
         <div class="loginform">
-          <div class="title">满分审验教育考试系统</div>
+          <div class="title">汾阳市公安局交通警察大队</div>
+          <div class="title">机动车驾驶人教育管理平台</div>
           <div class="pad">
             <div class="control-group">
               <div class="controls">
@@ -24,7 +25,7 @@
             </div>
           </div>
           <div class="form-actions">
-            <el-button type="primary" @click="login()">登录</el-button>
+            <el-button type="primary" @click="login()">立即登录</el-button>
           </div>
         </div>
       </div>
@@ -95,9 +96,12 @@ export default {
 
 <style scoped>
   .title {
-    padding-top: 20px;
     font-size: 24px;
     font-weight: bold;
+  }
+
+  .title:first-child {
+    padding-top: 20px;
   }
 
   #login {
@@ -110,15 +114,17 @@ export default {
     background-size: cover;
   }
 
-  #login #owl-login,
-  #register #owl-login {
-    width: 211px;
-    height: 108px;
-    background: url('../assets/owl-login.png');
+  .wrapper {
     position: absolute;
-    top: -100px;
-    left: 50%;
-    margin-left: -111px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 400px;
+    height: 300px;
+    padding-left: 950px;
+    padding-bottom: 250px;
   }
 
   @media all and (-webkit-min-device-pixel-ratio: 1.5),
@@ -255,13 +261,11 @@ export default {
 
   #login .loginform,
   #register .loginform {
-    position: relative;
     border: 1px solid #ddd;
     background-color: #fff;
     position: relative;
     max-width: 400px;
     padding: 0;
-    margin: 200px auto 0 auto;
   }
 
   #login .loginform.center,
@@ -331,10 +335,17 @@ export default {
 
   #login .loginform .form-actions,
   #register .loginform .form-actions {
-    border-top: 1px solid #e4e4e4;
-    background-color: #f7f7f7;
-    padding: 15px 30px;
+    /*border-top: 1px solid #e4e4e4;*/
+    /*background-color: #f7f7f7;*/
+    padding: 15px 30px 30px;
     text-align: right;
+  }
+
+  .el-button {
+    background-color: #1c3f9d;
+    width: 100%;
+    border: 0;
+    border-radius: 10px;
   }
 
   #login .copyright {
