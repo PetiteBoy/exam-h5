@@ -5,7 +5,7 @@
       <div class="printBorder">
         <div id="print">
           <div class="printPadding">
-            <div class="title">机动车驾驶人审验教育记录单（正面）</div>
+            <div class="title">机动车驾驶人审验教育记录单</div>
             <div class="userInfo">
               <div>
                 <div>姓名：{{ data.realname }}</div>
