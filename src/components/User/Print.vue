@@ -108,6 +108,7 @@ export default {
 
   #print {
     padding: 100px;
+    font-size: 18px;
   }
 
   .printPadding {
@@ -119,7 +120,7 @@ export default {
   }
 
   .title {
-    font-size: 22px;
+    font-size: 26px;
     padding: 20px;
     text-align: center;
   }
@@ -151,6 +152,7 @@ export default {
   .info {
     margin-top: 100px;
     text-align: left;
+    line-height: 32px;
   }
 
   .info div {
@@ -170,6 +172,7 @@ export default {
   .notice div {
     text-align: left;
     text-indent: 2em;
+    line-height: 32px;
   }
 
   .notice .r {
