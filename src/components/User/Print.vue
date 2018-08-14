@@ -23,6 +23,7 @@
               <div>该驾驶人于 {{ data.createTime }} 参加了道路交通安全法律法规、交通安全文明驾驶、应急处置等知识学习和交通事故案例警示教育。</div>
               <div class="r">
                 <div>市（县、区）公安机关</div>
+                <div>交通管理部门（印章）</div>
                 <div>年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日</div>
               </div>
             </div>
@@ -153,6 +154,7 @@ export default {
     margin-top: 100px;
     text-align: left;
     line-height: 32px;
+    margin-bottom: 50px;
   }
 
   .info div {
@@ -160,9 +162,9 @@ export default {
   }
 
   .info .r {
-    padding-top: 150px;
+    padding-top: 60px;
     text-align: right;
-    line-height: 60px;
+    line-height: 40px;
   }
 
   .notice .title {
