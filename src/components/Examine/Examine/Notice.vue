@@ -27,7 +27,7 @@ export default {
     }).then(res => {
       const that = this
       res.map(function (v) {
-        if (v.learnNum > 0 && v.learnNum !== v.completeNum) {
+        if (v.learnNum > 0 && v.learnNum > v.completeNum) {
           that.status = 0
         }
       })

@@ -126,7 +126,7 @@ export default {
           return
         }
 
-        if (v.learnNum === v.completeNum) {
+        if (v.learnNum <= v.completeNum) {
           v.status = 1
         } else {
           v.status = 0
