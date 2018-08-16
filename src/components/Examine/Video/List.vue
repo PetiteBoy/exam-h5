@@ -168,7 +168,11 @@ export default {
       }).then(res => {
         for (let item of res.list) {
           item.date = this.$parent.secondToDate(item.duration).date
-          item.endDate = (item.completedDuration / item.duration).toFixed(2) * 100
+          if (item.completedDuration < item.duration) {
+            item.endDate = (item.completedDuration / item.duration).toFixed(2) * 100
+          } else {
+            item.endDate = 100
+          }
         }
         this.list = res.list
         this.total = res.total

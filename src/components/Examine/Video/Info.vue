@@ -189,10 +189,14 @@ export default {
     }
   },
   beforeDestroy () {
+    let isCompleted = true
+    if (this.currentTime < this.mediaInfo.duration) {
+      isCompleted = false
+    }
     this.$parent.record({
       videoId: this.id,
       videoTm: this.currentTime,
-      isCompleted: false
+      isCompleted: isCompleted
     })
     if (this.stream) {
       this.stream.getTracks()[0].stop()
