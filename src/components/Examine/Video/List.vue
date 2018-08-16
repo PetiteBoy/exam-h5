@@ -55,7 +55,7 @@
         <div v-else></div>
       </div>
     </div>
-    <el-pagination background page-size="12" layout="prev, pager, next" :total="total" @current-change="handleCurrentChange"></el-pagination>
+    <el-pagination background :page-size="12" layout="prev, pager, next" :total="total" @current-change="handleCurrentChange"></el-pagination>
   </div>
 </template>
 
