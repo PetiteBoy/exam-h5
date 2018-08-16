@@ -50,6 +50,7 @@ export default {
   },
   watch: {
     $route: function () {
+      if (this.$route.path === '/Examine/Video/Info') return
       this.defaultActive = this.$route.fullPath
     }
   },
