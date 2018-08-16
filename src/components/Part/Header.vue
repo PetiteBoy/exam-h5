@@ -25,7 +25,7 @@ export default {
       service.requestUrl({
         url: '/user/info'
       }).then(res => {
-        this.userName = res.phone
+        this.userName = res.realname
       }).catch(err => {
         this.$message({
           showClose: true,

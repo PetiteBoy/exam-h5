@@ -60,10 +60,8 @@ export default {
     const that = this
     const Media = document.getElementById('videoInfo')
 
-    Media.currentTime = this.currentTime
-    this.completeDuration = this.$parent.secondToDate(Media.currentTime).date
-
     Media.addEventListener('timeupdate', function () {
+      that.currentTime = Media.currentTime
       that.completeDuration = that.$parent.secondToDate(Media.currentTime).date
     })
     Media.addEventListener('ended', function () {
@@ -86,6 +84,7 @@ export default {
   },
   methods: {
     getId () {
+      const Media = document.getElementById('videoInfo')
       this.id = this.$route.query.id
       service.requestUrl({
         url: `/video/find-by-id?id=${this.$route.query.id}`,
@@ -94,6 +93,8 @@ export default {
         this.mediaInfo = res
         this.currentTime = res.completedDuration || 0
         this.duration = this.$parent.secondToDate(res.duration).date
+        Media.currentTime = this.currentTime
+        this.completeDuration = this.$parent.secondToDate(Media.currentTime).date
       }).catch(err => {
         this.$message({
           showClose: true,
@@ -188,6 +189,11 @@ export default {
     }
   },
   beforeDestroy () {
+    this.$parent.record({
+      videoId: this.id,
+      videoTm: this.currentTime,
+      isCompleted: false
+    })
     if (this.stream) {
       this.stream.getTracks()[0].stop()
     }
