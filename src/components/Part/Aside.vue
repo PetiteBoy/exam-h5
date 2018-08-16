@@ -51,12 +51,19 @@ export default {
   watch: {
     $route: function () {
       if (this.$route.path === '/Examine/Video/Info') return
+      if (this.$route.path === '/User/Print') {
+        this.defaultActive = '/User/EducationRecord'
+        return
+      }
       this.defaultActive = this.$route.fullPath
     }
   },
   mounted () {
-    this.defaultActive = this.$route.fullPath
-
+    if (this.$route.path === '/User/Print') {
+      this.defaultActive = '/User/EducationRecord'
+    } else {
+      this.defaultActive = this.$route.fullPath
+    }
     this.getCategory()
   },
   methods: {

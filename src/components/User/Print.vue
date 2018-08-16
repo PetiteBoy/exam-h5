@@ -51,6 +51,18 @@ export default {
     }
   },
   mounted () {
+    const printHeight = document.getElementsByClassName('print')[0].clientHeight
+    const printBorderScale = (printHeight / 1450).toFixed(2)
+    const printBorder = document.getElementsByClassName('printBorder')[0]
+    printBorder.style.transform = `scale(${printBorderScale})`
+
+    window.onresize = () => {
+      const printHeight = document.getElementsByClassName('print')[0].clientHeight
+      const printBorderScale = (printHeight / 1450).toFixed(2)
+      const printBorder = document.getElementsByClassName('printBorder')[0]
+      printBorder.style.transform = `scale(${printBorderScale})`
+    }
+
     this.id = this.$route.query.id
     service.requestUrl({
       url: `/user/edurecord/detail?id=${this.id}`,
