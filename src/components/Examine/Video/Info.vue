@@ -16,7 +16,7 @@
           <div class="r ovh">
             <img class="l" src="../../../assets/voice.png">
             <div class="block r">
-              <el-slider v-model="mediaVolume" @change="mediaTools('voice')"></el-slider>
+              <el-slider v-model="mediaVolume" @change="mediaTools"></el-slider>
             </div>
           </div>
         </div>
@@ -138,10 +138,10 @@ export default {
         this.media = !this.media
       } else if (res === 'full') {
         Media.webkitRequestFullScreen()
-      } else if (res === 'voice') {
-        Media.volume = res / 100
-      } else {
+      } else if (res === 'back') {
         window.history.back()
+      } else {
+        Media.volume = res / 100
       }
     },
     record () {
